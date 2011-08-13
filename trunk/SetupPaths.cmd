@@ -1,4 +1,4 @@
-setx NTS_LIB_ROOT %CD%
+setx NTS_LIB_ROOT "%CD%"
 
 echo All Done!
 pause
