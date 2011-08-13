@@ -1,3 +1,12 @@
+{*******************************************************}
+{                                                       }
+{                   NTS Aero UI Library                 }
+{         Created by GooD-NTS ( good.nts@gmail.com )    }
+{           http://ntscorp.ru/  Copyright(c) 2011       }
+{          License: Mozilla Public License 1.1          }
+{                                                       }
+{*******************************************************}
+
 Unit NTS.UI.Aero.Environment.Register.Components;
 
 Interface
@@ -71,7 +80,6 @@ begin
   RegisterComponents('Aero Special'   , [ TBlackGameButton ]);
 
 {
-
 [Aero Standard]
 TAeroWindow
 TAeroLabel

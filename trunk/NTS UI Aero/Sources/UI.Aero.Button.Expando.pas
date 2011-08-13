@@ -1,3 +1,12 @@
+{*******************************************************}
+{                                                       }
+{                   NTS Aero UI Library                 }
+{         Created by GooD-NTS ( good.nts@gmail.com )    }
+{           http://ntscorp.ru/  Copyright(c) 2011       }
+{          License: Mozilla Public License 1.1          }
+{                                                       }
+{*******************************************************}
+
 unit UI.Aero.Button.Expando;
 
 interface
@@ -60,96 +69,99 @@ implementation
 
 Constructor TCunstomExpandoButton.Create(AOwner: TComponent);
 begin
- Inherited Create(AOwner);
- AutoSize:= True;
- fExpand:= True;
- fOnExpand:= nil;
- fVisibleControl:= nil;
- fExpandCaption:= 'AeroExpandoButton';
+  Inherited Create(AOwner);
+  AutoSize:= True;
+  fExpand:= True;
+  fOnExpand:= nil;
+  fVisibleControl:= nil;
+  fExpandCaption:= 'AeroExpandoButton';
 end;
 
 function TCunstomExpandoButton.CanAutoSize(var NewWidth, NewHeight: Integer): Boolean;
 begin
- Result:= True;
- if Align in [alNone, alTop, alBottom] then
-  NewHeight:= 21;
- if Align in [alNone, alLeft, alRight] then
-  NewWidth:= 21+GetCurrentTextWidth;
+  Result:= True;
+  if Align in [alNone, alTop, alBottom] then
+    NewHeight:= 21;
+  if Align in [alNone, alLeft, alRight] then
+    NewWidth:= 21+GetCurrentTextWidth;
 end;
 
 procedure TCunstomExpandoButton.Click;
 begin
- Inherited Click;
- SetExpand(not fExpand);
+  Inherited Click;
+  SetExpand(not fExpand);
 end;
 
 procedure TCunstomExpandoButton.ExpandChange;
 begin
- if Assigned(fVisibleControl) then fVisibleControl.Visible:= fExpand;
- if Assigned(fOnExpand) then fOnExpand(Self);
- if AutoSize then SetBounds(Left,Top,0,0);
+  if Assigned(fVisibleControl) then
+    fVisibleControl.Visible:= fExpand;
+  if Assigned(fOnExpand) then
+    fOnExpand(Self);
+  if AutoSize then
+    SetBounds(Left,Top,0,0);
 end;
 
 function TCunstomExpandoButton.GetCurrentTextWidth: Integer;
 begin
- if Assigned(Parent) then
+  if Assigned(Parent) then
   begin
-   Canvas.Font:= Self.Font;
-   if Expand then
-    Result:= Canvas.TextExtent(ExpandCaption).cx
-   else
-    Result:= Canvas.TextExtent(Caption).cx;
+    Canvas.Font:= Self.Font;
+    if Expand then
+      Result:= Canvas.TextExtent(ExpandCaption).cx
+    else
+      Result:= Canvas.TextExtent(Caption).cx;
   end
- else
-  Result:= 0;
+  else
+    Result:= 0;
 end;
 
 function TCunstomExpandoButton.GetRenderState: TARenderConfig;
 begin
- Result:= [];
+  Result:= [];
 end;
 
 function TCunstomExpandoButton.GetThemeClassName: PWideChar;
 begin
- if AeroCore.RunWindowsVista then
-  Result:= 'TaskDialog'
- else
-  Result:= 'ExplorerBar';//VSCLASS_BUTTON;
-{%MESSAGE HINT 'Доделать комопнент для XP и клсасики'}
+  if AeroCore.RunWindowsVista then
+    Result:= 'TaskDialog'
+  else
+    Result:= 'ExplorerBar';//VSCLASS_BUTTON;
+  {TODO -oGooD -cGeneral : Доделать комопнент для XP и клсасики}
 end;
 
 procedure TCunstomExpandoButton.Notification(AComponent: TComponent; Operation: TOperation);
 begin
- Inherited Notification(AComponent,Operation);
- if (Operation = opRemove) and (AComponent = fVisibleControl) then
-  fVisibleControl:= nil;
+  Inherited Notification(AComponent,Operation);
+  if (Operation = opRemove) and (AComponent = fVisibleControl) then
+    fVisibleControl:= nil;
 end;
 
 procedure TCunstomExpandoButton.SetExpand(const Value: Boolean);
 begin
- if fExpand <> value then
+  if fExpand <> value then
   begin
-   fExpand:= Value;
-   Invalidate;
-   ExpandChange;
+    fExpand:= Value;
+    Invalidate;
+    ExpandChange;
   end;
 end;
 
 procedure TCunstomExpandoButton.SetExpandCaption(const Value: TCaption);
 begin
- if fExpandCaption <> Value then
+  if fExpandCaption <> Value then
   begin
-   fExpandCaption:= Value;
-   Invalidate;
+    fExpandCaption:= Value;
+    Invalidate;
   end;
 end;
 
 procedure TCunstomExpandoButton.SetVisibleControl(const Value: TControl);
 begin
- if fVisibleControl <> Value then
+  if fVisibleControl <> Value then
   begin
-   fVisibleControl:= Value;
-   fVisibleControl.Visible:= fExpand;
+    fVisibleControl:= Value;
+    fVisibleControl.Visible:= fExpand;
   end;
 end;
 
@@ -168,13 +180,13 @@ end;
 
 procedure TAeroExpandoButton.RenderState(const PaintDC: hDC; var Surface: TGPGraphics; var RConfig: TARenderConfig; const DrawState: Integer);
 var
- clRect: TRect;
- StateID: Integer;
+  clRect: TRect;
+  StateID: Integer;
 begin
- if AeroCore.RunWindowsVista then
+  if AeroCore.RunWindowsVista then
   begin
-   StateID:= TDLGEBS_NORMAL;
-   if fExpand then
+    StateID:= TDLGEBS_NORMAL;
+    if fExpand then
     case TAeroButtonState(DrawState) of
       UI.Aero.Globals.bsNormal    : StateID:= TDLGEBS_EXPANDEDNORMAL;
       UI.Aero.Globals.bsHightLight: StateID:= TDLGEBS_EXPANDEDHOVER;
@@ -182,7 +194,7 @@ begin
       UI.Aero.Globals.bsDown      : StateID:= TDLGEBS_EXPANDEDPRESSED;
       UI.Aero.Globals.bsDisabled  : StateID:= TDLGEBS_EXPANDEDNORMAL;
     end
-   else
+    else
     case TAeroButtonState(DrawState) of
       UI.Aero.Globals.bsNormal    : StateID:= TDLGEBS_NORMAL;
       UI.Aero.Globals.bsHightLight: StateID:= TDLGEBS_HOVER;
@@ -190,18 +202,20 @@ begin
       UI.Aero.Globals.bsDown      : StateID:= TDLGEBS_PRESSED;
       UI.Aero.Globals.bsDisabled  : StateID:= TDLGEBS_NORMAL;
     end;
-   clRect:= Rect(0,0,19,21);
-   DrawThemeBackground(ThemeData,PaintDC,TDLG_EXPANDOBUTTON,StateID,clRect,nil);
-   clRect:= Rect(21,0,Width,Height);
-   if Expand then
-    AeroCore.RenderText(PaintDC,ThemeData,TDLG_EXPANDOBUTTON,StateID,Self.Font,TextFormat,clRect,ExpandCaption,false)
-   else
-    AeroCore.RenderText(PaintDC,ThemeData,TDLG_EXPANDOBUTTON,StateID,Self.Font,TextFormat,clRect,Caption,false); 
+    clRect:= Rect(0,0,19,21);
+    DrawThemeBackground(ThemeData,PaintDC,TDLG_EXPANDOBUTTON,StateID,clRect,nil);
+    clRect:= Rect(21,0,Width,Height);
+    if Expand then
+      AeroCore.RenderText(PaintDC, ThemeData, TDLG_EXPANDOBUTTON, StateID,
+        Self.Font, TextFormat, clRect, ExpandCaption, false)
+    else
+      AeroCore.RenderText(PaintDC, ThemeData, TDLG_EXPANDOBUTTON, StateID,
+        Self.Font, TextFormat, clRect, Caption, false);
   end
- else
+  else
   begin
-   StateID:= TDLGEBS_NORMAL;
-   if fExpand then
+    StateID:= TDLGEBS_NORMAL;
+    if fExpand then
     case TAeroButtonState(DrawState) of
       UI.Aero.Globals.bsNormal    : StateID:= PBS_NORMAL;
       UI.Aero.Globals.bsHightLight: StateID:= PBS_HOT;
@@ -209,7 +223,7 @@ begin
       UI.Aero.Globals.bsDown      : StateID:= PBS_PRESSED;
       UI.Aero.Globals.bsDisabled  : StateID:= PBS_DISABLED;
     end
-   else
+    else
     case TAeroButtonState(DrawState) of
       UI.Aero.Globals.bsNormal    : StateID:= PBS_NORMAL;
       UI.Aero.Globals.bsHightLight: StateID:= PBS_HOT;
@@ -217,12 +231,14 @@ begin
       UI.Aero.Globals.bsDown      : StateID:= PBS_PRESSED;
       UI.Aero.Globals.bsDisabled  : StateID:= PBS_DISABLED;
     end;
-   clRect:= GetClientRect;
-   DrawThemeBackground(ThemeData,PaintDC,BP_PUSHBUTTON,StateID,clRect,nil);
-   if Expand then
-    AeroCore.RenderText(PaintDC,ThemeData,BP_PUSHBUTTON,StateID,Self.Font,TextFormat,clRect,ExpandCaption,false)
-   else
-    AeroCore.RenderText(PaintDC,ThemeData,BP_PUSHBUTTON,StateID,Self.Font,TextFormat,clRect,Caption,false);
+    clRect:= GetClientRect;
+    DrawThemeBackground(ThemeData,PaintDC,BP_PUSHBUTTON,StateID,clRect,nil);
+    if Expand then
+      AeroCore.RenderText(PaintDC, ThemeData, BP_PUSHBUTTON, StateID, Self.Font,
+        TextFormat, clRect, ExpandCaption, false)
+    else
+      AeroCore.RenderText(PaintDC, ThemeData, BP_PUSHBUTTON, StateID, Self.Font,
+        TextFormat, clRect, Caption, false);
   end;
 end;      
 

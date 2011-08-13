@@ -1,3 +1,12 @@
+{*******************************************************}
+{                                                       }
+{                   NTS Aero UI Library                 }
+{         Created by GooD-NTS ( good.nts@gmail.com )    }
+{           http://ntscorp.ru/  Copyright(c) 2011       }
+{          License: Mozilla Public License 1.1          }
+{                                                       }
+{*******************************************************}
+
 unit UI.Aero.BackForward;
 
 interface
@@ -123,70 +132,70 @@ end;
 
 Constructor TAeroBackForward.Create(AOwner: TComponent);
 begin
- Inherited Create(AOwner);
- NeedUpDate:= True;
- CurrentIndex:= 0;
- ControlStyle:= ControlStyle+[csParentBackground]-[csOpaque];
- Height:= 31;
- Width:= 81;
- CreateButtons;
- SetButtonsProperty;
+  Inherited Create(AOwner);
+  NeedUpDate:= True;
+  CurrentIndex:= 0;
+  ControlStyle:= ControlStyle+[csParentBackground]-[csOpaque];
+  Height:= 31;
+  Width:= 81;
+  CreateButtons;
+  SetButtonsProperty;
 end;
 
 Destructor TAeroBackForward.Destroy;
 begin
- DestroyButtons;
- Inherited Destroy;
+  DestroyButtons;
+  Inherited Destroy;
 end;
 
 procedure TAeroBackForward.Notification(AComponent: TComponent; Operation: TOperation);
 begin
- Inherited Notification(AComponent, Operation);
+  Inherited Notification(AComponent, Operation);
   if (Operation = opRemove) and (AComponent = FGoToMenu) then
-   FGoToMenu:= nil;
+    FGoToMenu:= nil;
 end;
 
 procedure TAeroBackForward.CreateButtons;
 const
   bntName: Array [0..2] of String = ('btnBack','btnForward','btnBackMenu');
 var                                                                           
- I: Integer;
+  I: Integer;
 begin
- if not AeroCore.RunWindowsVista then
-  LoadMsStyle;
- for I:=0 to 2 do
+  if not AeroCore.RunWindowsVista then
+    LoadMsStyle;
+  for I:=0 to 2 do
   begin
-   buttons[I]:= TAeroThemeButton.Create(Self);
-   buttons[I].Name:= bntName[I];
-   buttons[I].Parent:= Self;
-   buttons[I].Tag:= I;
-   if not AeroCore.RunWindowsVista then
-    buttons[I].OnThemePaint:= xp_w3k_theme;
+    buttons[I]:= TAeroThemeButton.Create(Self);
+    buttons[I].Name:= bntName[I];
+    buttons[I].Parent:= Self;
+    buttons[I].Tag:= I;
+    if not AeroCore.RunWindowsVista then
+      buttons[I].OnThemePaint:= xp_w3k_theme;
   end;
 end;
 
 procedure TAeroBackForward.DestroyButtons;
 var
- I: Integer;
+  I: Integer;
 begin
- for I:=0 to 2 do
-  buttons[I].Free;
- if not AeroCore.RunWindowsVista then
-  FreeMsStyle;
+  for I:=0 to 2 do
+    buttons[I].Free;
+  if not AeroCore.RunWindowsVista then
+    FreeMsStyle;
 end;
 
 procedure TAeroBackForward.SetButtonsProperty;
 var
- I: Integer;
+  I: Integer;
 begin
- for I:=1 to 3 do
+  for I:=1 to 3 do
   with buttons[I-1] do
-   begin
+  begin
     Top:= -2;
     if AeroCore.RunWindowsVista then
-     Height:= 33
+      Height:= 33
     else
-     Height:= 29;
+      Height:= 29;
     ThemeClassName:= 'Navigation';
     DrawCaption:= False;
     State.StateNormal:= 1;
@@ -200,24 +209,27 @@ begin
     State.PartFocused:= I;
     State.PartDown:= I;
     State.PartDisabled:= I;
-   end;
- with buttons[0] do
-  begin
-   Left:= 0;
-   Width:= 33;
-   OnClick:= buttonClick;
   end;
- with buttons[1] do
+
+  with buttons[0] do
   begin
-   Left:= 32;
-   Width:= 33;
-   OnClick:= buttonClick;
+    Left:= 0;
+    Width:= 33;
+    OnClick:= buttonClick;
   end;
- with buttons[2] do
+
+  with buttons[1] do
   begin
-   Left:= 64;
-   Width:= 17;
-   OnClick:= btnBackMenuClick;
+    Left:= 32;
+    Width:= 33;
+    OnClick:= buttonClick;
+  end;
+
+  with buttons[2] do
+  begin
+    Left:= 64;
+    Width:= 17;
+    OnClick:= btnBackMenuClick;
   end;
 end;
 
@@ -228,31 +240,31 @@ end;
 
 function TAeroBackForward.GetBtnEnabled(const Index: Integer): BooLean;
 begin
- Result:= buttons[Index].Enabled;
+  Result:= buttons[Index].Enabled;
 end;
 
 procedure TAeroBackForward.SetBtnEnabled(const Index: Integer; const Value: BooLean);
 begin
- buttons[Index].Enabled:= Value;
+  buttons[Index].Enabled:= Value;
 end;
 
 procedure TAeroBackForward.btnBackMenuClick(Sender: TObject);
 var
- Point: TPoint;
+  Point: TPoint;
 begin
- if Assigned(FGoToMenu) then
+  if Assigned(FGoToMenu) then
   begin
-   Point:= buttons[2].ClientOrigin;
-   Point.Y:= Point.Y+buttons[2].Height;
-   with Point do
-    FGoToMenu.Popup(X, Y);
+    Point:= buttons[2].ClientOrigin;
+    Point.Y:= Point.Y+buttons[2].Height;
+    with Point do
+      FGoToMenu.Popup(X, Y);
   end;
 end;
 
 procedure TAeroBackForward.buttonClick(Sender: TObject);
 begin
- if Assigned(FOnBtnClick) then
-  FOnBtnClick(Self,TAeroThemeButton(Sender).Tag);
+  if Assigned(FOnBtnClick) then
+    FOnBtnClick(Self,TAeroThemeButton(Sender).Tag);
 end;
 
 procedure TAeroBackForward.LoadMsStyle;
@@ -269,21 +281,22 @@ begin
     if FileExists(Dir+bntName[I]) then
       AeroXP[I].LoadFromFile(Dir+bntName[I])
     else
-      MessageBox(0,pChar('Cant load image: '+sLineBreak+Dir+bntName[I]),'Aero UI - Error',MB_ICONHAND OR MB_OK);
+      MessageBox(0, pChar('Cant load image: '+sLineBreak+Dir+bntName[I]),
+        'Aero UI - Error', MB_ICONHAND OR MB_OK);
   end;
 end;
 
 procedure TAeroBackForward.FreeMsStyle;
 var
- I: Integer;
+  I: Integer;
 begin
- for I:=1 to 3 do
-  AeroXP[I].Free;
+  for I:=1 to 3 do
+    AeroXP[I].Free;
 end;
 
 procedure TAeroBackForward.xp_w3k_theme(const Sender: TAeroCustomButton; PartID, StateID: Integer; Surface: TCanvas);
 begin
- Surface.Draw(0,-(27*(StateID-1))+2,AeroXP[PartID]);
+  Surface.Draw(0,-(27*(StateID-1))+2,AeroXP[PartID]);
 end;
 
 { TAeroIEBackForward }
@@ -347,7 +360,6 @@ procedure TAeroIEBackForward.ThemedRender(const PaintDC: hDC; const Surface: TGP
 begin
   RenderControl(PaintDC);
 end;
-
 
 procedure TAeroIEBackForward.ClassicRender(const ACanvas: TCanvas);
 begin
