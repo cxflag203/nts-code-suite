@@ -1,3 +1,12 @@
+{*******************************************************}
+{                                                       }
+{                   NTS Aero UI Library                 }
+{         Created by GooD-NTS ( good.nts@gmail.com )    }
+{           http://ntscorp.ru/  Copyright(c) 2011       }
+{          License: Mozilla Public License 1.1          }
+{                                                       }
+{*******************************************************}
+
 unit UI.Aero.Button.Custom;
 
 interface
@@ -48,137 +57,137 @@ implementation
 
 Constructor TAeroCustomButton.Create(AOwner: TComponent);
 begin
- Inherited Create(AOwner);
- SpaceDown:= False;
- ButtonState:= bsNormal;
- TabStop:= True;
- AnimationDuration:= 250;
+  Inherited Create(AOwner);
+  SpaceDown:= False;
+  ButtonState:= bsNormal;
+  TabStop:= True;
+  AnimationDuration:= 250;
 end;
 
 procedure TAeroCustomButton.ButtonStateChange;
 begin
- //
+
 end;
 
 procedure TAeroCustomButton.Click;
 begin
- SetFocus;
- Inherited Click;
+  SetFocus;
+  Inherited Click;
 end;
 
 function TAeroCustomButton.GetButtonState: TAEROButtonState;
 begin
- Result:= TAEROButtonState(NewAniState);
+  Result:= TAEROButtonState(NewAniState);
 end;
 
 procedure TAeroCustomButton.KeyDown(var Key: Word; Shift: TShiftState);
 begin
- Inherited KeyDown(Key,Shift);
- case Key of
-   VK_RETURN: Click;
-   VK_SPACE:
-    begin
-     SpaceDown:= True;
-     UpDateButtonState;
-    end;
- end;
+  Inherited KeyDown(Key,Shift);
+  case Key of
+    VK_RETURN: Click;
+    VK_SPACE:
+      begin
+        SpaceDown:= True;
+        UpDateButtonState;
+      end;
+  end;
 end;
 
 procedure TAeroCustomButton.KeyUp(var Key: Word; Shift: TShiftState);
 begin
- Inherited KeyUp(Key,Shift);
- if Key = VK_SPACE then
+  Inherited KeyUp(Key,Shift);
+  if Key = VK_SPACE then
   begin
-   SpaceDown:= False;
-   UpDateButtonState;
-   Click;
+    SpaceDown:= False;
+    UpDateButtonState;
+    Click;
   end;
 end;
 
 procedure TAeroCustomButton.SetButtonState(const Value: TAEROButtonState);
 begin
- NewAniState:= Integer(Value);
+  NewAniState:= Integer(Value);
 end;
 
 procedure TAeroCustomButton.UpDateButtonState;
 var
- TempValue: TAeroButtonState;
+  TempValue: TAeroButtonState;
 begin
- TempValue:= ButtonState;
- if Enabled then
+  TempValue:= ButtonState;
+  if Enabled then
   begin
-   if SpaceDown then
-    ButtonState:= bsDown
-   else
-    if MouseOnControl then
-     begin
-      if MouseLeftDown then
-       ButtonState:= bsDown
-      else
-       ButtonState:= bsHightLight;
-     end
+    if SpaceDown then
+      ButtonState:= bsDown
     else
-     if Focused then
+    if MouseOnControl then
+    begin
+      if MouseLeftDown then
+        ButtonState:= bsDown
+      else
+        ButtonState:= bsHightLight;
+    end
+    else
+    if Focused then
       ButtonState:= bsFocused
-     else
+    else
       ButtonState:= bsNormal;
   end
- else
-  ButtonState:= bsDisabled;
- if TempValue <> ButtonState then
+  else
+    ButtonState:= bsDisabled;
+  if TempValue <> ButtonState then
   begin
-   Invalidate;
-   ButtonStateChange;
+    Invalidate;
+    ButtonStateChange;
   end; 
 end;
 
 procedure TAeroCustomButton.WndProc(var Message: TMessage);
 var
- KeyVar: Word;
+  KeyVar: Word;
 begin
- Inherited WndProc(Message);
- case Message.Msg of
-   CM_EXIT:
+  Inherited WndProc(Message);
+  case Message.Msg of
+    CM_EXIT:
     begin
-     if SpaceDown then
+      if SpaceDown then
       begin
-       KeyVar:= VK_SPACE;
-       KeyUp(KeyVar,[]);
+        KeyVar:= VK_SPACE;
+        KeyUp(KeyVar,[]);
       end;
-     UpDateButtonState; 
+      UpDateButtonState;
     end;
-   CM_ENTER,
-   CM_MOUSEENTER,
-   CM_MOUSELEAVE,
-   CM_ENABLEDCHANGED,
-   WM_LBUTTONDOWN,
-   WM_LBUTTONUP: UpDateButtonState;
- end;
+    CM_ENTER,
+    CM_MOUSEENTER,
+    CM_MOUSELEAVE,
+    CM_ENABLEDCHANGED,
+    WM_LBUTTONDOWN,
+    WM_LBUTTONUP: UpDateButtonState;
+  end;
 end;
 
 { TAeroCustomImageButton }
 
 Constructor TAeroCustomImageButton.Create(AOwner: TComponent);
 begin
- Inherited Create(AOwner);
- fImage:= TAEROButtonImage.Create;
- fImage.OnChange:= ImageChange;
+  Inherited Create(AOwner);
+  fImage:= TAEROButtonImage.Create;
+  fImage.OnChange:= ImageChange;
 end;
 
 Destructor TAeroCustomImageButton.Destroy;
 begin
- fImage.Free;
- Inherited Destroy;
+  fImage.Free;
+  Inherited Destroy;
 end;
 
 procedure TAeroCustomImageButton.ImageChange(Sender: TObject);
 begin
- Invalidate;
+  Invalidate;
 end;
 
 procedure TAeroCustomImageButton.SetNewImage(const Value: TAeroButtonImage);
 begin
- fImage.Assign(Value);
+  fImage.Assign(Value);
 end;
 
 end.

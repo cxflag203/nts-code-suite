@@ -1,3 +1,12 @@
+{*******************************************************}
+{                                                       }
+{                   NTS Aero UI Library                 }
+{         Created by GooD-NTS ( good.nts@gmail.com )    }
+{           http://ntscorp.ru/  Copyright(c) 2011       }
+{          License: Mozilla Public License 1.1          }
+{                                                       }
+{*******************************************************}
+
 unit UI.Aero.Core.BaseControl;
 
 interface
@@ -282,10 +291,9 @@ end;
 procedure TAeroBaseControl.CreateParams(var Params: TCreateParams);
 begin
  Inherited CreateParams(Params);
-// Def Style
  with Params do
-  WindowClass.style := WindowClass.style and not (CS_HREDRAW or CS_VREDRAW);
-{$MESSAGE HINT 'Узнать зачем здесь нужно  and not (CS_HREDRAW or CS_VREDRAW)'}
+    WindowClass.style := WindowClass.style and not (CS_HREDRAW or CS_VREDRAW);
+ //{$MESSAGE HINT 'Узнать зачем здесь нужно  and not (CS_HREDRAW or CS_VREDRAW)'}
 end;
 
 procedure TAeroBaseControl.WMEraseBkgnd(var Message: TWMEraseBkgnd);

@@ -1,3 +1,12 @@
+{*******************************************************}
+{                                                       }
+{                   NTS Aero UI Library                 }
+{         Created by GooD-NTS ( good.nts@gmail.com )    }
+{           http://ntscorp.ru/  Copyright(c) 2011       }
+{          License: Mozilla Public License 1.1          }
+{                                                       }
+{*******************************************************}
+
 unit UI.Aero.Panel;
 
 interface
@@ -167,7 +176,7 @@ end;
 
 procedure TAeroPanel.ClassicRender(const ACanvas: TCanvas);
 begin
- {$Message HINT 'Доделать и исправить наконец эту долбаную панель!'}
+ // {$Message HINT 'Доделать и исправить наконец эту долбаную панель!'}
 end;
 
 function TAeroPanel.CreateGPBrush(const AGPRect: TGPRect;var Image: TGPImage): TGPBrush;
