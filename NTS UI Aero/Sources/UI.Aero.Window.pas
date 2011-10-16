@@ -151,14 +151,19 @@ end;
 
 procedure TBaseAeroWindow.CurrentThemeChanged;
 begin
-  if AeroCore.FirstInstance = Self then
-    AeroCore.CompositionActive:= IsCompositionActive
-  else
-  if AeroCore.FirstInstance = nil then
+  if AeroCore.RunWindowsVista then
   begin
-    AeroCore.FirstInstance:= Self;
-    AeroCore.CompositionActive:= IsCompositionActive;
-  end;
+    if AeroCore.FirstInstance = Self then
+      AeroCore.CompositionActive:= IsCompositionActive
+    else
+    if AeroCore.FirstInstance = nil then
+    begin
+      AeroCore.FirstInstance:= Self;
+      AeroCore.CompositionActive:= IsCompositionActive;
+    end;
+  end
+  else
+    AeroCore.CompositionActive:= False;
   if ThemeData <> 0 then
     CloseThemeData(ThemeData);
   LoadAeroTheme;
