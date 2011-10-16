@@ -36,68 +36,68 @@ implementation
 
 class procedure AeroCore.DrawVista(ADC: hDC; ATheme: hTheme; APartID, AStateID: Integer; AFont: TFont; AFormat: DWORD; ARect: TRect; AText: String; AGlow: BooLean);
 var
- Options: TDTTOpts;
+  Options: TDTTOpts;
 begin
- if CompositionActive and (ATheme <> 0) then
+  if CompositionActive and (ATheme <> 0) then
   begin
-   SelectObject(ADC,AFont.Handle);
-   ZeroMemory(@Options,SizeOf(TDTTOpts));
-   Options.dwSize:= SizeOf(TDTTOpts);
-   Options.dwFlags:= DTT_COMPOSITED or DTT_TEXTCOLOR;
-   Options.crText:= ColorToRGB(AFont.Color);
-   if AGlow then
+    SelectObject(ADC,AFont.Handle);
+    ZeroMemory(@Options,SizeOf(TDTTOpts));
+    Options.dwSize:= SizeOf(TDTTOpts);
+    Options.dwFlags:= DTT_COMPOSITED or DTT_TEXTCOLOR;
+    Options.crText:= ColorToRGB(AFont.Color);
+    if AGlow then
     begin
-     Options.dwFlags:= Options.dwFlags or DTT_GLOWSIZE;
-     Options.iGlowSize:= 12;
+      Options.dwFlags:= Options.dwFlags or DTT_GLOWSIZE;
+      Options.iGlowSize:= 12;
     end;
-   DrawThemeTextEx(ATheme,ADC,APartID,AStateID,StringToOleStr(AText),-1,AFormat,@ARect,Options);
+    DrawThemeTextEx(ATheme,ADC,APartID,AStateID,StringToOleStr(AText),-1,AFormat,@ARect,Options);
   end
- else
-  DrawXP(ADC,ATheme,APartID,AStateID,AFont,AFormat,ARect,AText,AGlow);
+  else
+    DrawXP(ADC,ATheme,APartID,AStateID,AFont,AFormat,ARect,AText,AGlow);
 end;
 
 class procedure AeroCore.DrawXP(ADC: hDC; ATheme: hTheme; APartID, AStateID: Integer; AFont: TFont; AFormat: DWORD; ARect: TRect; AText: String; AGlow: BooLean);
 var
- OldBkMode: Integer;
+  OldBkMode: Integer;
 begin
- SelectObject(ADC,AFont.Handle);
- SetTextColor(ADC,ColorToRGB(AFont.Color));
- OldBkMode:= SetBkMode(ADC, Transparent);
- DrawText(ADC,pChar(AText),-1,ARect,AFormat);
- SetBkMode(ADC, OldBkMode);
+  SelectObject(ADC,AFont.Handle);
+  SetTextColor(ADC,ColorToRGB(AFont.Color));
+  OldBkMode:= SetBkMode(ADC, Transparent);
+  DrawText(ADC,pChar(AText),-1,ARect,AFormat);
+  SetBkMode(ADC, OldBkMode);
 end;
 
 class procedure AeroCore.RenderText(ADC: hDC; AFont: TFont; AFormat: DWORD; ARect: TRect; AText: String);
 begin
- DrawXP(ADC,0,0,0,AFont,AFormat,ARect,AText,False);
+  DrawXP(ADC,0,0,0,AFont,AFormat,ARect,AText,False);
 end;
 
 class procedure AeroCore.RenderText(ADC: hDC; ATheme: hTheme; APartID, AStateID: Integer; AFont: TFont; AFormat: DWORD; ARect: TRect; AText: String; AGlow: BooLean);
 begin
- RenderFunction(ADC,ATheme,APartID,AStateID,AFont,AFormat,ARect,AText,AGlow);
+  RenderFunction(ADC,ATheme,APartID,AStateID,AFont,AFormat,ARect,AText,AGlow);
 end;
 
 Initialization
 begin
- InitThemeLibrary;
- AeroCore.FirstInstance:= nil;
- if Win32BuildNumber >= 6000 then
+  InitThemeLibrary;
+  AeroCore.FirstInstance:= nil;
+  if CheckWin32Version(6, 0) then
   begin
-   AeroCore.RunWindowsVista:= True;
-   AeroCore.CompositionActive:= IsCompositionActive;
-   AeroCore.RenderFunction:= AeroCore.DrawVista;
+    AeroCore.RunWindowsVista:= True;
+    AeroCore.CompositionActive:= IsCompositionActive;
+    AeroCore.RenderFunction:= AeroCore.DrawVista;
   end
- else
+  else
   begin
-   AeroCore.RunWindowsVista:= False;
-   AeroCore.CompositionActive:= False;
-   AeroCore.RenderFunction:= AeroCore.DrawXP;
+    AeroCore.RunWindowsVista:= False;
+    AeroCore.CompositionActive:= False;
+    AeroCore.RenderFunction:= AeroCore.DrawXP;
   end;
 end;
 
 Finalization
 begin
- // To Do: Type code here;
+  // To Do: Type code here;
 end;
 
 

@@ -42,95 +42,97 @@ uses
 
 Constructor TCustomAeroControl.Create(AOwner: TComponent);
 begin
- Inherited Create(AOwner);
+  Inherited Create(AOwner);
 
 end;
 
 Destructor TCustomAeroControl.Destroy;
 begin
 
- Inherited Destroy;
+  Inherited Destroy;
 end;
 
 function TCustomAeroControl.CreateRenderBuffer(const DrawDC: hDC; var PaintDC: hDC): hPaintBuffer;
 var
- rcClient: TRect;
- Params: TBPPaintParams;
+  rcClient: TRect;
+  Params: TBPPaintParams;
 begin
- rcClient:= GetClientRect;
- ZeroMemory(@Params,SizeOf(TBPPaintParams));
- Params.cbSize:= SizeOf(TBPPaintParams);
- Params.dwFlags:= BPPF_ERASE;
- Result:= BeginBufferedPaint(DrawDC, rcClient, BPBF_COMPOSITED, @params, PaintDC);
- if Result = 0 then
-  PaintDC:= DrawDC
- else
-  begin
-   DrawAeroParentBackground(PaintDC,rcClient);
-  end;
+  rcClient:= GetClientRect;
+  ZeroMemory(@Params,SizeOf(TBPPaintParams));
+  Params.cbSize:= SizeOf(TBPPaintParams);
+  Params.dwFlags:= BPPF_ERASE;
+  Result:= BeginBufferedPaint(DrawDC, rcClient, BPBF_COMPOSITED, @params, PaintDC);
+  if Result = 0 then
+    PaintDC:= DrawDC
+  else
+    DrawAeroParentBackground(PaintDC,rcClient);
 end;
 
 procedure TCustomAeroControl.RenderProcedure_Classic(const ACanvas: TCanvas);
 begin
- CreateClassicBuffer;
- DrawClassicBG;
- ClassicRender(ClassicBuffer.Canvas);
- ACanvas.Draw(0,0,ClassicBuffer);
+  CreateClassicBuffer;
+  DrawClassicBG;
+  ClassicRender(ClassicBuffer.Canvas);
+  ACanvas.Draw(0,0,ClassicBuffer);
 end;
 
 procedure TCustomAeroControl.RenderProcedure_Vista(const ACanvas: TCanvas);
 var
- RConfig: TRenderConfig;
- PaintDC: hDC;
- RenderBuffer: hPaintBuffer;
- GPSurface: TGPGraphics;
+  RConfig: TRenderConfig;
+  PaintDC: hDC;
+  RenderBuffer: hPaintBuffer;
+  GPSurface: TGPGraphics;
 begin
- PaintDC:= ACanvas.Handle;
- RenderBuffer:= 0;
- GPSurface:= nil;
- RConfig:= [];
+  PaintDC:= ACanvas.Handle;
+  RenderBuffer:= 0;
+  GPSurface:= nil;
+  RConfig:= [];
 //
- if ThemeServices.ThemesEnabled then
+  if ThemeServices.ThemesEnabled then
   begin
-   if IsCompositionActive then
-    RConfig:= GetRenderState+[rsComposited]
-   else
-    RConfig:= GetRenderState;
-   if (rsBuffer in RConfig) then
-    RenderBuffer:= CreateRenderBuffer(ACanvas.Handle,PaintDC);
-   if (rsGDIP in RConfig) then GPSurface:= TGPGraphics.Create(PaintDC);
-   ThemedRender(PaintDC,GPSurface,RConfig);
-   if Assigned(GPSurface) then GPSurface.Free;
-   if (rsBuffer in RConfig) and (RenderBuffer <> 0) then
-    EndBufferedPaint(RenderBuffer,True);
+    if IsCompositionActive then
+      RConfig:= GetRenderState+[rsComposited]
+    else
+      RConfig:= GetRenderState;
+    if (rsBuffer in RConfig) then
+      RenderBuffer:= CreateRenderBuffer(ACanvas.Handle,PaintDC);
+    if (rsGDIP in RConfig) then
+      GPSurface:= TGPGraphics.Create(PaintDC);
+    ThemedRender(PaintDC,GPSurface,RConfig);
+    if Assigned(GPSurface) then
+      GPSurface.Free;
+    if (rsBuffer in RConfig) and (RenderBuffer <> 0) then
+      EndBufferedPaint(RenderBuffer, True);
   end
- else
-  RenderProcedure_Classic(ACanvas);
- if rsPostDraw in RConfig then
-  PostRender(ACanvas,RConfig);
+  else
+    RenderProcedure_Classic(ACanvas);
+  if rsPostDraw in RConfig then
+    PostRender(ACanvas,RConfig);
 end;
 
 procedure TCustomAeroControl.RenderProcedure_XP(const ACanvas: TCanvas);
 var
- RConfig: TRenderConfig;
- PaintDC: hDC;
- GPSurface: TGPGraphics;
+  RConfig: TRenderConfig;
+  PaintDC: hDC;
+  GPSurface: TGPGraphics;
 begin
- PaintDC:= ACanvas.Handle;
- GPSurface:= nil;
- RConfig:= [];
+  PaintDC:= ACanvas.Handle;
+  GPSurface:= nil;
+  RConfig:= [];
 //
- if ThemeServices.ThemesEnabled then
+  if ThemeServices.ThemesEnabled then
   begin
-   RConfig:= GetRenderState;
-   if (rsGDIP in RConfig) then GPSurface:= TGPGraphics.Create(PaintDC);
-   ThemedRender(PaintDC,GPSurface,RConfig);
-   if Assigned(GPSurface) then GPSurface.Free; 
+    RConfig:= GetRenderState;
+    if (rsGDIP in RConfig) then
+      GPSurface:= TGPGraphics.Create(PaintDC);
+    ThemedRender(PaintDC,GPSurface,RConfig);
+    if Assigned(GPSurface) then
+      GPSurface.Free;
   end
- else
-  RenderProcedure_Classic(ACanvas);
- if rsPostDraw in RConfig then
-  PostRender(ACanvas,RConfig);
+  else
+    RenderProcedure_Classic(ACanvas);
+  if rsPostDraw in RConfig then
+    PostRender(ACanvas,RConfig);
 end;
 
 end.

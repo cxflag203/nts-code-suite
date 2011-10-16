@@ -350,14 +350,14 @@ end;
 
 Initialization
 begin
- if TAeroWindow.RunWindowsVista then
-  BufferedPaintInit;
+  if TAeroWindow.RunWindowsVista then
+    BufferedPaintInit;
 end;
 
 Finalization
 begin
- if TAeroWindow.RunWindowsVista then
-  BufferedPaintUnInit;
+  if TAeroWindow.RunWindowsVista then
+    BufferedPaintUnInit;
 end;
 
 end.

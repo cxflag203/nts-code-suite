@@ -45,6 +45,7 @@ type
     function GetThemeClassName: PWideChar; override;
     procedure SetBreak(const Index: Integer; const Value: boolean);
     function CanAutoSize(var NewWidth, NewHeight: Integer): Boolean; override;
+    procedure PostRender(const Surface: TCanvas; const RConfig: TRenderConfig); override;
   Public
     Constructor Create(AOwner: TComponent); OverRide;
     Destructor Destroy; OverRide;
@@ -170,6 +171,11 @@ end;
 function TAeroBaseStatusBox.GetThemeClassName: PWideChar;
 begin
  Result:= VSCLASS_WINDOW;
+end;
+
+procedure TAeroBaseStatusBox.PostRender(const Surface: TCanvas; const RConfig: TRenderConfig);
+begin
+
 end;
 
 function TAeroBaseStatusBox.CanAutoSize(var NewWidth, NewHeight: Integer): Boolean;

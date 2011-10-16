@@ -90,6 +90,7 @@ begin
     Align:= alClient;
     BorderStyle:= bsNone;
     Text:= '';
+    EditControl.DoubleBuffered:= False;
   end;
 //
   EditControlWindowProc:= EditControl.WindowProc;
@@ -119,6 +120,7 @@ procedure TAeroSearchBox.EditWindowProc(var Message: TMessage);
 var
   WinHandle: HWND;
 begin
+  EditControl.ControlState:= EditControl.ControlState-[csGlassPaint];
   EditControlWindowProc(Message);
   case Message.Msg of
     CM_ENTER:
