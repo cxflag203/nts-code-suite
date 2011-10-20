@@ -9,7 +9,6 @@
 
 package NTS.CodeLibrary;
 
-{$I NTS.CodeLibrary.inc}
 {$R *.res}
 {$ALIGN 8}
 {$ASSERTIONS ON}
