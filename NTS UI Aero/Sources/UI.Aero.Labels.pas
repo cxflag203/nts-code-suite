@@ -36,6 +36,7 @@ type
     procedure ThemedRender(const PaintDC: hDC; const Surface: TGPGraphics; var RConfig: TRenderConfig); OverRide;
     function GetThemeClassName: PWideChar; override;
     function CanAutoSize(var NewWidth, NewHeight: Integer): Boolean; override;
+    procedure PostRender(const Surface: TCanvas; const RConfig: TRenderConfig); override;
   Public
     Constructor Create(AOwner: TComponent); OverRide;
   Published
@@ -108,6 +109,11 @@ end;
 function TAeroLabel.GetThemeClassName: PWideChar;
 begin
  Result:= VSCLASS_WINDOW;
+end;
+
+procedure TAeroLabel.PostRender(const Surface: TCanvas;const RConfig: TRenderConfig);
+begin
+
 end;
 
 procedure TAeroLabel.SetAlignment(const Value: TAlignment);

@@ -75,6 +75,7 @@ type
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X: Integer; Y: Integer); override;
     procedure MouseMove(Shift: TShiftState; X: Integer; Y: Integer); OverRide;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X: Integer; Y: Integer); override;
+    procedure PostRender(const Surface: TCanvas; const RConfig: TRenderConfig); override;
   Public
     Constructor Create(AOwner: TComponent); override;
   Published
@@ -321,6 +322,11 @@ begin
    DownButton:= -1;
    Invalidate;
   end;
+end;
+
+procedure TAeroPageManager.PostRender(const Surface: TCanvas; const RConfig: TRenderConfig);
+begin
+
 end;
 
 procedure TAeroPageManager.RenderBody(const PaintDC: hDC);

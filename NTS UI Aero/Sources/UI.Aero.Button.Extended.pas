@@ -35,6 +35,7 @@ type
     procedure DrawButtonImage(const PaintDC: hDC; const DrawState: TAeroButtonState);
     function GetCaptionRect: TRect;
     procedure ImageChange(Sender: TObject);
+    procedure PostRender(const Surface: TCanvas; const RConfig: TARenderConfig; const DrawState: Integer); override;
   Public
     Constructor Create(AOwner: TComponent); OverRide;
     Destructor Destroy; OverRide;
@@ -106,6 +107,11 @@ end;
 procedure TAeroButtonEx.ImageChange(Sender: TObject);
 begin
   Invalidate;
+end;
+
+procedure TAeroButtonEx.PostRender(const Surface: TCanvas;const RConfig: TARenderConfig; const DrawState: Integer);
+begin
+
 end;
 
 procedure TAeroButtonEx.SetDrawCaption(const Value: BooLean);

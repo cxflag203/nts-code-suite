@@ -46,6 +46,7 @@ type
     procedure WndProc(var Message: TMessage); override;
     procedure SetEnabled(Value: Boolean); override;
     function GetThemeClassName: PWideChar; override;
+    procedure PostRender(const Surface: TCanvas; const RConfig: TRenderConfig); override;
   Public
     function EditHandle: THandle;
     function GetEditControl: TEdit;
@@ -156,6 +157,11 @@ begin
   end
   else
     Result:= 'Edit';
+end;
+
+procedure TAeroSearchBox.PostRender(const Surface: TCanvas; const RConfig: TRenderConfig);
+begin
+
 end;
 
 function TAeroSearchBox.GetEditChangeEvent: TNotifyEvent;
