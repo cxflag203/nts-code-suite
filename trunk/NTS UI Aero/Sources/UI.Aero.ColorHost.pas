@@ -125,7 +125,8 @@ type
     procedure ScrollTimer(Sender: TObject);
     procedure TestItems(X: Integer);
     procedure ValueChange(ValueType,Value: Integer); override;
-  Public                                            
+    procedure PostRender(const Surface: TCanvas; const RConfig: TRenderConfig); override;
+  Public
     Constructor Create(AOwner: TComponent); override;
     Destructor Destroy; override;
     function IndexOf(ColorData: TGPColor): Integer;
@@ -499,6 +500,11 @@ begin
   end
  else
   ScrollWork.Enabled:= False;
+end;
+
+procedure TAeroColorHost.PostRender(const Surface: TCanvas; const RConfig: TRenderConfig);
+begin
+
 end;
 
 procedure TAeroColorHost.Resize;

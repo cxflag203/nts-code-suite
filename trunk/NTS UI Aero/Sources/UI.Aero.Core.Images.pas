@@ -186,20 +186,20 @@ begin
  PNGFile.Free;
 end;
 
-Class Function AeroPicture.LoadImage(AFileName: String): TBitmap;
+class function AeroPicture.LoadImage(AFileName: String): TBitmap;
 begin
- Result:= nil;
- if FileExists(AFileName) then
+  Result:= nil;
+  if FileExists(AFileName) then
   case AnsiLowerCase(ExtractFileExt(AFileName))[2] of
     'p': Result:= BitMapFromPNG(AFileName);{.png}
     'b': Result:= BitMapFromBMP(AFileName);{.bmp}
     'j': Result:= BitMapFromJPG(AFileName);{.jpg}
- end;
+  end;
 end;
 
 class procedure AeroPicture.StretchDraw(DC: hDC; Image: TBitMap; ImgRect: TRect);
 begin
- AlphaBlend(DC,ImgRect.Left,ImgRect.Top,ImgRect.Right,ImgRect.Bottom, Image.Canvas.Handle,0,0,Image.Width,Image.Height,Blend);
+  AlphaBlend(DC,ImgRect.Left,ImgRect.Top,ImgRect.Right,ImgRect.Bottom, Image.Canvas.Handle,0,0,Image.Width,Image.Height,Blend);
 end;
 
 Class Procedure AeroPicture.Draw(DC: hDC;Image: TBitMap; Pos: TPoint; Size: TSize);

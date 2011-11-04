@@ -331,6 +331,7 @@ type
     function GetThemeClassName: PWideChar; override;
     procedure CurrentThemeChanged; override;
     function CanDrag(X,Y: Integer): BooLean; override;
+    procedure PostRender(const Surface: TCanvas; const RConfig: TRenderConfig); override;
   Public
     Constructor Create(AOwner: TComponent); OverRide;
     Destructor Destroy; OverRide;
@@ -730,6 +731,11 @@ end;
 function TAeroComposition.GetThemeClassName: PWideChar;
 begin
  Result:= VSCLASS_WINDOW;
+end;
+
+procedure TAeroComposition.PostRender(const Surface: TCanvas; const RConfig: TRenderConfig);
+begin
+
 end;
 
 procedure TAeroComposition.SetFontCollection(const Value: TAeroFontCollection);

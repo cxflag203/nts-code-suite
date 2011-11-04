@@ -31,6 +31,7 @@ type
     procedure ClassicRender(const ACanvas: TCanvas); OverRide;
     procedure ThemedRender(const PaintDC: hDC; const Surface: TGPGraphics; var RConfig: TRenderConfig); OverRide;
     procedure RenderImage(const PaintDC: hDC);
+    procedure PostRender(const Surface: TCanvas; const RConfig: TRenderConfig); override;
   Public
     Constructor Create(AOwner: TComponent); OverRide;
     Destructor Destroy; OverRide;  
@@ -103,6 +104,11 @@ end;
 function TAeroImage.GetRenderState: TRenderConfig;
 begin
  Result:= [rsBuffer];
+end;
+
+procedure TAeroImage.PostRender(const Surface: TCanvas; const RConfig: TRenderConfig);
+begin
+
 end;
 
 procedure TAeroImage.RenderImage(const PaintDC: hDC);

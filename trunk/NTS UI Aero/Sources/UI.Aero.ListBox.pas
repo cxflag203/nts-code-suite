@@ -91,7 +91,7 @@ type
     procedure SetItemIndex(const Value: Integer);
     procedure SetBackGround(const Value: BooLean);
     procedure SetTextGlow(const Value: BooLean);
-  Protected
+  protected
     procedure CalculatePages;
     function GetThemeClassName: PWideChar; override;
     procedure MouseMove(Shift: TShiftState; X: Integer; Y: Integer); override;
@@ -101,10 +101,10 @@ type
     procedure DblClick; override;
     procedure Resize; override;
     procedure CMEnabledChanged(var Message: TMessage); message CM_ENABLEDCHANGED;
-  Public
+  public
     Constructor Create(AOwner: TComponent); OverRide;
     Destructor Destroy; OverRide;
-  Published
+  published
     property TabStop Default True;
     property Items: TAeroItems Read fItems Write SetItems;
     property ItemWidth: Integer Index 0 Read fItemWidth Write SetItemSize Default 154;
@@ -120,16 +120,17 @@ type
     Property OnItemChange: TItemChangeEvent Read fOnItemChange Write fOnItemChange;
     Property OnItemDblClick: TItemChangeEvent Read fOnItemDblClick Write fOnItemDblClick;
     Property OnCalculatePages: TNotifyEvent Read fOnCalculatePages Write fOnCalculatePages;  
-  End;
+  end;
 
   TAeroListBox = Class(TBaseAeroListBox)
-  Protected
+  protected
     function GetRenderState: TARenderConfig; OverRide;
     procedure RenderState(const PaintDC: hDC; var Surface: TGPGraphics; var RConfig: TARenderConfig; const DrawState: Integer); OverRide;
     procedure ClassicRender(const ACanvas: TCanvas; const DrawState: Integer); OverRide;
     procedure DrawPage(const PaintDC: hDC;const APageIndex: Integer);
     procedure PaintPage(const ACanvas: TCanvas;const APageIndex: Integer);
-  End;
+    procedure PostRender(const Surface: TCanvas; const RConfig: TARenderConfig; const DrawState: Integer); override;
+  end;
 
 implementation
 
@@ -580,6 +581,11 @@ begin
       DrawY:= DrawY+ItemHeight+HeightSpaseSize;
      end;
    end;
+end;
+
+procedure TAeroListBox.PostRender(const Surface: TCanvas; const RConfig: TARenderConfig; const DrawState: Integer);
+begin
+
 end;
 
 procedure TAeroListBox.DrawPage(const PaintDC: hDC; const APageIndex: Integer);

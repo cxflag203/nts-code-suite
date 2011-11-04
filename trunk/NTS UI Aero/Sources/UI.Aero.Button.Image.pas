@@ -24,6 +24,7 @@ type
     function CanAutoSize(var NewWidth, NewHeight: Integer): Boolean; override;
     procedure RenderState(const PaintDC: hDC; var Surface: TGPGraphics; var RConfig: TARenderConfig; const DrawState: Integer); override;
     procedure ClassicRender(const ACanvas: TCanvas; const DrawState: Integer); override;
+    procedure PostRender(const Surface: TCanvas; const RConfig: TARenderConfig; const DrawState: Integer); override;
   Published
     Property AutoSize;
   End;
@@ -35,6 +36,11 @@ implementation
 function TAeroImageButton.GetRenderState: TARenderConfig;
 begin
  Result:= [];
+end;
+
+procedure TAeroImageButton.PostRender(const Surface: TCanvas; const RConfig: TARenderConfig; const DrawState: Integer);
+begin
+
 end;
 
 function TAeroImageButton.CanAutoSize(var NewWidth, NewHeight: Integer): Boolean;

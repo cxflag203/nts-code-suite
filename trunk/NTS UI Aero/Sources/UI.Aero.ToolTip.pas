@@ -34,6 +34,7 @@ type
     function GetThemeClassName: PWideChar; override;
     procedure ClassicRender(const ACanvas: TCanvas); OverRide;
     procedure ThemedRender(const PaintDC: hDC; const Surface: TGPGraphics; var RConfig: TRenderConfig); OverRide;
+    procedure PostRender(const Surface: TCanvas; const RConfig: TRenderConfig); override;
   Public
     Constructor Create(AOwner: TComponent); OverRide;
     Destructor Destroy; OverRide;
@@ -111,6 +112,11 @@ begin
     tiWinLogo    : IconHandle:= LoadIcon(0,IDI_WINLOGO);
     tiShield     : IconHandle:= LoadIcon(0,IDI_SHIELD);
   end;
+end;
+
+procedure TAeroToolTip.PostRender(const Surface: TCanvas; const RConfig: TRenderConfig);
+begin
+
 end;
 
 procedure TAeroToolTip.SetIcon(const Value: TToolTipIcon);

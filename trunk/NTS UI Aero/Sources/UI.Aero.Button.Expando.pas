@@ -61,6 +61,7 @@ type
   Protected
     procedure RenderState(const PaintDC: hDC; var Surface: TGPGraphics; var RConfig: TARenderConfig; const DrawState: Integer); override;
     procedure ClassicRender(const ACanvas: TCanvas; const DrawState: Integer); override;
+    procedure PostRender(const Surface: TCanvas; const RConfig: TARenderConfig; const DrawState: Integer); override;
   end;
 
 implementation
@@ -176,6 +177,11 @@ begin
 |      |                                       -|
 ------------------------------------------------
 }
+end;
+
+procedure TAeroExpandoButton.PostRender(const Surface: TCanvas; const RConfig: TARenderConfig; const DrawState: Integer);
+begin
+
 end;
 
 procedure TAeroExpandoButton.RenderState(const PaintDC: hDC; var Surface: TGPGraphics; var RConfig: TARenderConfig; const DrawState: Integer);
