@@ -461,7 +461,7 @@ procedure TAeroThemeCollection.ReloadTheme(Index: Integer);
      Items[AIndex].fThemeData:= 0;
     end;
    if Items[AIndex].fDataName <> '' then
-    Items[AIndex].fThemeData:= OpenThemeData(0,StringToOleStr(Items[AIndex].fDataName));
+    Items[AIndex].fThemeData:= OpenThemeData(0,pChar(Items[AIndex].fDataName));
   end;
 
 var

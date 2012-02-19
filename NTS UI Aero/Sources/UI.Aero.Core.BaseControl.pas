@@ -107,24 +107,24 @@ Uses
 
 Constructor TCustomBaseAeroControl.Create(AOwner: TComponent);
 begin
- Inherited Create(AOwner);
- fDragWindow:= False;
- FsTag:= '';
- fDesigningRect:= True;
- Width:= 160;
- Height:= 90;
- fTransparent:= True;
- fTransparentColor:= clBtnFace;
-end;                           
+  Inherited Create(AOwner);
+  fDragWindow:= False;
+  FsTag:= '';
+  fDesigningRect:= True;
+  Width:= 160;
+  Height:= 90;
+  fTransparent:= True;
+  fTransparentColor:= clBtnFace;
+end;
 
 function TCustomBaseAeroControl.IsRunTime: Boolean;
 begin
- Result:= not (csDesigning in ComponentState);
+  Result:= not (csDesigning in ComponentState);
 end;
 
 function TCustomBaseAeroControl.IsDesigningTime: Boolean;
 begin
- Result:= (csDesigning in ComponentState);
+  Result:= (csDesigning in ComponentState);
 end;
 
 procedure TCustomBaseAeroControl.SetCenterTop;
@@ -250,12 +250,12 @@ end;
 
 procedure TAeroBaseControl.LoadThemeData;
 var
- ThemeClassName: PChar;
+  ThemeClassName: PChar;
 begin
- if ThemeData <> 0 then CloseThemeData(ThemeData);
- ThemeClassName:= GetThemeClassName;
- if ThemeClassName <> '' then
-  ThemeData:= OpenThemeData(0,ThemeClassName);
+  if ThemeData <> 0 then CloseThemeData(ThemeData);
+  ThemeClassName:= GetThemeClassName;
+  if ThemeClassName <> '' then
+    ThemeData:= OpenThemeData(0, ThemeClassName);
 end;
 
 procedure TAeroBaseControl.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -281,11 +281,11 @@ end;
 
 procedure TAeroBaseControl.CurrentThemeChanged;
 begin
- if ThemeServices.ThemesEnabled then
-  ControlStyle := ControlStyle+[csParentBackground]-[csOpaque]
- else
-  ControlStyle := ControlStyle-[csParentBackground]+[csOpaque];
- LoadThemeData;
+  if ThemeServices.ThemesEnabled then
+    ControlStyle := ControlStyle+[csParentBackground]-[csOpaque]
+  else
+    ControlStyle := ControlStyle-[csParentBackground]+[csOpaque];
+  LoadThemeData;
 end;
 
 procedure TAeroBaseControl.CreateParams(var Params: TCreateParams);
@@ -324,26 +324,26 @@ end;
 
 procedure TAeroBaseControl.WndProc(var Message: TMessage);
 begin
- Inherited WndProc(Message);
- case Message.Msg of
-   WM_DWMCOMPOSITIONCHANGED,
-   WM_THEMECHANGED:
+  Inherited WndProc(Message);
+  case Message.Msg of
+    WM_DWMCOMPOSITIONCHANGED,
+    WM_THEMECHANGED:
     begin
-     CurrentThemeChanged;
-     Invalidate;
+      CurrentThemeChanged;
+      Invalidate;
     end;
-   CM_MOUSEENTER: MouseOnControl:= True;
-   CM_MOUSELEAVE: MouseOnControl:= False;
-   CM_TEXTCHANGED:
+    CM_MOUSEENTER: MouseOnControl:= True;
+    CM_MOUSELEAVE: MouseOnControl:= False;
+    CM_TEXTCHANGED:
     begin
-     if AutoSize then
+      if AutoSize then
       begin
-       AutoSize:= False;
-       AutoSize:= True;
+        AutoSize:= False;
+        AutoSize:= True;
       end;
-     Invalidate;
+      Invalidate;
     end;
- end;
+  end;
 end;
 
 { Initialization & Finalization }

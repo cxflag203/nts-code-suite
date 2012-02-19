@@ -197,12 +197,12 @@ end;
 
 function TAeroPanel.CreateGPImage: TGPImage;
 begin
- if FileExists(fTexture) then
+  if FileExists(fTexture) then
   begin
-   Result:= TGPImage.Create(StringToOleStr(fTexture));
+    Result:= TGPImage.Create(fTexture);
   end
- else
-  Result:= nil;
+  else
+    Result:= nil;
 end;
 
 function TAeroPanel.CreateGPRect: TGPRect;

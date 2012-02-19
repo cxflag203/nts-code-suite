@@ -37,8 +37,8 @@ type
     function CanAutoSize(var NewWidth, NewHeight: Integer): Boolean; override;
     procedure PostRender(const Surface: TCanvas;const RConfig: TRenderConfig); override;
   Public
-    Constructor Create(AOwner: TComponent); OverRide;
-    Destructor Destroy; OverRide;
+    constructor Create(AOwner: TComponent); OverRide;
+    destructor Destroy; OverRide;
   Published
     property AutoSize;
     property ThemeClassName: String Read fThemeClassName Write SetThemeClassName;
@@ -111,13 +111,13 @@ end;
 
 procedure TAeroThemeElement.SetThemeClassName(const Value: String);
 begin
- if fThemeClassName <> Value then
+  if fThemeClassName <> Value then
   begin
-   fThemeClassName:= Value;
-   CurrentThemeChanged;
-   Invalidate;
-   if AutoSize then
-    SetBounds(Left,Top,0,0);
+    fThemeClassName:= Value;
+    CurrentThemeChanged;
+    Invalidate;
+    if AutoSize then
+      SetBounds(Left,Top,0,0);
   end;
 end;
 
