@@ -41,6 +41,7 @@ type
     function GetRenderState: TRenderConfig; OverRide;
     procedure ClassicRender(const ACanvas: TCanvas); OverRide;
     procedure ThemedRender(const PaintDC: hDC; const Surface: TGPGraphics; var RConfig: TRenderConfig); OverRide;
+    procedure RenderCompositeImage(const PaintDC: hDC); virtual;
     procedure RenderImage(const PaintDC: hDC); virtual;
     function GetThemeClassName: PWideChar; override;
     procedure SetBreak(const Index: Integer; const Value: boolean);
@@ -107,70 +108,70 @@ begin
   end;
 end;
 
-Constructor TAeroBaseStatusBox.Create(AOwner: TComponent);
+constructor TAeroBaseStatusBox.Create(AOwner: TComponent);
 begin
- Inherited Create(AOwner);
- inc(Usage);
- ControlStyle:= ControlStyle+[csAcceptsControls];
- if TAeroBaseStatusBox.Usage = 1 then
+  inherited Create(AOwner);
+  inc(Usage);
+  ControlStyle:= ControlStyle+[csAcceptsControls];
+  if TAeroBaseStatusBox.Usage = 1 then
   begin
-   TAeroBaseStatusBox.fImageLeft:= AeroPicture.LoadImage(TAeroBaseStatusBox.BandImageLeft);
-   TAeroBaseStatusBox.fImageRight:= AeroPicture.LoadImage(TAeroBaseStatusBox.BandImageRight);
-   TAeroBaseStatusBox.fImageCenter:= AeroPicture.LoadImage(TAeroBaseStatusBox.BandImageCenter);
-   TAeroBaseStatusBox.fImageBreak:= AeroPicture.LoadImage(TAeroBaseStatusBox.BandImageBreak);
-   TAeroBaseStatusBox.fImageLight:= AeroPicture.LoadImage(TAeroBaseStatusBox.BandImageLight);
+    TAeroBaseStatusBox.fImageLeft:= AeroPicture.LoadImage(TAeroBaseStatusBox.BandImageLeft);
+    TAeroBaseStatusBox.fImageRight:= AeroPicture.LoadImage(TAeroBaseStatusBox.BandImageRight);
+    TAeroBaseStatusBox.fImageCenter:= AeroPicture.LoadImage(TAeroBaseStatusBox.BandImageCenter);
+    TAeroBaseStatusBox.fImageBreak:= AeroPicture.LoadImage(TAeroBaseStatusBox.BandImageBreak);
+    TAeroBaseStatusBox.fImageLight:= AeroPicture.LoadImage(TAeroBaseStatusBox.BandImageLight);
   end;
- fBreakLeft:= False;
- fBreakRight:= False;
- fLight:= False;
- Height:= 20;
- AutoSize:= True;
- DragWindow:= True;
+  fBreakLeft:= False;
+  fBreakRight:= False;
+  fLight:= False;
+  Height:= 20;
+  AutoSize:= True;
+  DragWindow:= True;
 end;
 
-Destructor TAeroBaseStatusBox.Destroy;
+destructor TAeroBaseStatusBox.Destroy;
 begin
- dec(Usage);
- if TAeroBaseStatusBox.Usage = 0 then
+  dec(Usage);
+  if TAeroBaseStatusBox.Usage = 0 then
   begin
-   TAeroBaseStatusBox.fImageLeft.Free;
-   TAeroBaseStatusBox.fImageRight.Free;
-   TAeroBaseStatusBox.fImageCenter.Free;
-   TAeroBaseStatusBox.fImageBreak.Free;
-   TAeroBaseStatusBox.fImageLight.Free;
+    TAeroBaseStatusBox.fImageLeft.Free;
+    TAeroBaseStatusBox.fImageRight.Free;
+    TAeroBaseStatusBox.fImageCenter.Free;
+    TAeroBaseStatusBox.fImageBreak.Free;
+    TAeroBaseStatusBox.fImageLight.Free;
   end;
- Inherited Destroy();
+  inherited Destroy();
 end;
 
 function TAeroBaseStatusBox.GetRenderState: TRenderConfig;
 begin
- Result:= [rsBuffer];
+  Result:= [rsBuffer];
 end;
 
 function TAeroBaseStatusBox.GetTextFormat: DWORD;
 begin
- Result:= DT_SINGLELINE OR DT_VCenter OR DT_Center;
+  Result:= DT_SINGLELINE OR DT_VCenter OR DT_Center;
 end;
 
 function TAeroBaseStatusBox.GetTextSize: TSize;
 begin
- if Assigned(Parent) then
+  if Assigned(Parent) then
   begin
-   Canvas.Font:= Self.Font;
-   Result:= Canvas.TextExtent(Caption);
-   Result.cx:= Result.cx+10;
+    Canvas.Font:= Self.Font;
+    Result:= Canvas.TextExtent(Caption);
+    Result.cx:= Result.cx+10;
   end
- else
+  else
   begin
-   Result.cx:= ClientWidth;
-   Result.cy:= ClientHeight;
+    Result.cx:= ClientWidth;
+    Result.cy:= ClientHeight;
   end;
- Result.cy:= 20;
+  Result.cy:= 20;
 end;
 
 function TAeroBaseStatusBox.GetThemeClassName: PWideChar;
 begin
- Result:= VSCLASS_WINDOW;
+  Result:= VSCLASS_WINDOW;
 end;
 
 procedure TAeroBaseStatusBox.PostRender(const Surface: TCanvas; const RConfig: TRenderConfig);
@@ -180,133 +181,162 @@ end;
 
 function TAeroBaseStatusBox.CanAutoSize(var NewWidth, NewHeight: Integer): Boolean;
 begin
- Result:= True;
- with GetTextSize do
+  Result:= True;
+  with GetTextSize do
   if IsRunTime or (cx > 0) and (cy > 0) then
-   begin
+  begin
     if Align in [alNone, alLeft, alRight] then
-     NewWidth:= cx;
+      NewWidth:= cx;
     if Align in [alNone, alTop, alBottom] then
-     NewHeight := cy;
-   end;
+      NewHeight := cy;
+  end;
 end;
 
 procedure TAeroBaseStatusBox.ClassicRender(const ACanvas: TCanvas);
 begin
- RenderImage(ACanvas.Handle);
- AeroCore.RenderText(ACanvas.Handle,Self.Font,GetTextFormat,GetClientRect,Caption);
+  RenderImage(ACanvas.Handle);
+  AeroCore.RenderText(ACanvas.Handle,Self.Font,GetTextFormat,GetClientRect,Caption);
 end;
 
 procedure TAeroBaseStatusBox.ThemedRender(const PaintDC: hDC; const Surface: TGPGraphics; var RConfig: TRenderConfig);
 begin
- RenderImage(PaintDC);
- AeroCore.RenderText(PaintDC,ThemeData,1,1,Self.Font,GetTextFormat,GetClientRect,Caption,False);
+  if AeroCore.CompositionActive then
+    RenderCompositeImage(PaintDC)
+  else
+    RenderImage(PaintDC);
+  AeroCore.RenderText(PaintDC,ThemeData,1,1,Self.Font,GetTextFormat,GetClientRect,Caption,False);
 end;
 
 procedure TAeroBaseStatusBox.RenderImage(const PaintDC: hDC);
 var
- cRect: TRect;
+  cRect: TRect;
 begin
- cRect:= Rect(5,0,Self.Width-10,20);
- if fBreakLeft then
+  cRect:= Rect(5,0,Self.Width-10,20);
+  if fBreakLeft then
   begin
-   cRect.Left:= 0;
-   cRect.Right:= cRect.Right+5;
-  end
- else
-  AeroPicture.Draw(PaintDC,TAeroBaseStatusBox.fImageLeft,Point(0,0), TSize(Point(5,20)) );
- if fBreakRight then
+    cRect.Left:= 0;
+    cRect.Right:= cRect.Right+5;
+  end;
+  //else
+  //  AeroPicture.Draw(PaintDC,TAeroBaseStatusBox.fImageLeft,Point(0,0), TSize(Point(5,20)) );
+  if fBreakRight then
   begin
-   cRect.Right:= cRect.Right+5;
-   AeroPicture.Draw(PaintDC,TAeroBaseStatusBox.fImageBreak,Point(Self.Width-2,0), TSize(Point(2,20)) );
-  end
- else
-  AeroPicture.Draw(PaintDC,TAeroBaseStatusBox.fImageRight,Point(Self.Width-5,0), TSize(Point(5,20)) );
+    cRect.Right:= cRect.Right+5;
+    AeroPicture.Draw(PaintDC,TAeroBaseStatusBox.fImageBreak,Point(Self.Width-2,0), TSize(Point(2,20)) );
+  end;
+  //else
+  //  AeroPicture.Draw(PaintDC,TAeroBaseStatusBox.fImageRight,Point(Self.Width-5,0), TSize(Point(5,20)) );
 // ---
- if fLight then AeroPicture.StretchDraw(PaintDC,TAeroBaseStatusBox.fImageLight, cRect );
- AeroPicture.StretchDraw(PaintDC,TAeroBaseStatusBox.fImageCenter, cRect );
+  if fLight then
+    AeroPicture.StretchDraw(PaintDC,TAeroBaseStatusBox.fImageLight, cRect );
+  //AeroPicture.StretchDraw(PaintDC,TAeroBaseStatusBox.fImageCenter, cRect );
+end;
+
+procedure TAeroBaseStatusBox.RenderCompositeImage(const PaintDC: hDC);
+var
+  cRect: TRect;
+begin
+  cRect:= Rect(5,0,Self.Width-10,20);
+  if fBreakLeft then
+  begin
+    cRect.Left:= 0;
+    cRect.Right:= cRect.Right+5;
+  end
+  else
+    AeroPicture.Draw(PaintDC,TAeroBaseStatusBox.fImageLeft,Point(0,0), TSize(Point(5,20)) );
+  if fBreakRight then
+  begin
+    cRect.Right:= cRect.Right+5;
+    AeroPicture.Draw(PaintDC,TAeroBaseStatusBox.fImageBreak,Point(Self.Width-2,0), TSize(Point(2,20)) );
+  end
+  else
+    AeroPicture.Draw(PaintDC,TAeroBaseStatusBox.fImageRight,Point(Self.Width-5,0), TSize(Point(5,20)) );
+// ---
+  if fLight then
+    AeroPicture.StretchDraw(PaintDC,TAeroBaseStatusBox.fImageLight, cRect );
+  AeroPicture.StretchDraw(PaintDC,TAeroBaseStatusBox.fImageCenter, cRect );
 end;
 
 procedure TAeroBaseStatusBox.SetBreak(const Index: Integer; const Value: boolean);
 begin
- case Index of
-   0: fBreakLeft:= Value;
-   1: fBreakRight:= Value;
-   2: fLight:= Value;
- end;
- Self.Invalidate;
+  case Index of
+    0: fBreakLeft:= Value;
+    1: fBreakRight:= Value;
+    2: fLight:= Value;
+  end;
+  Self.Invalidate;
 end;
 
 { TAeroStatusButton }
 
 Constructor TAeroStatusButton.Create(AOwner: TComponent);
 begin
- Inherited Create(AOwner);
- DragWindow:= False;
+  Inherited Create(AOwner);
+  DragWindow:= False;
 end;
 
 function TAeroStatusButton.GetButtonRect: TRect;
 begin
- Result.Top:= 1;
- Result.Bottom:= Height-1;
- Result.Left:= 7;
- Result.Right:= Width-7;
+  Result.Top:= 1;
+  Result.Bottom:= Height-1;
+  Result.Left:= 7;
+  Result.Right:= Width-7;
 end;
 
 function TAeroStatusButton.GetTextSize: TSize;
 begin
- if Assigned(Parent) then
+  if Assigned(Parent) then
   begin
-   Canvas.Font:= Self.Font;
-   Result:= Canvas.TextExtent(Caption);
-   Result.cx:= Result.cx+20;
+    Canvas.Font:= Self.Font;
+    Result:= Canvas.TextExtent(Caption);
+    Result.cx:= Result.cx+20;
   end
- else
+  else
   begin
-   Result.cx:= ClientWidth;
-   Result.cy:= ClientHeight;
+    Result.cx:= ClientWidth;
+    Result.cy:= ClientHeight;
   end;
- Result.cy:= 20;
+  Result.cy:= 20;
 end;
 
 function TAeroStatusButton.GetThemeClassName: PWideChar;
 begin
- Result:= VSCLASS_TOOLBAR;
+  Result:= VSCLASS_TOOLBAR;
 end;
 
 procedure TAeroStatusButton.UpDateButtonState;
 var
- TempValue: TAeroButtonState;
+  TempValue: TAeroButtonState;
 begin
- TempValue:= fButtonState;
- if Enabled then
+  TempValue:= fButtonState;
+  if Enabled then
   begin
-   if MouseOnControl then
+    if MouseOnControl then
     begin
-     if MouseLeftDown then
-      fButtonState:= bsDown
-     else
-      fButtonState:= bsHightLight;
+      if MouseLeftDown then
+        fButtonState:= bsDown
+      else
+        fButtonState:= bsHightLight;
     end
-   else
-    if Focused then
-     fButtonState:= bsFocused
     else
-     fButtonState:= bsNormal;
+    if Focused then
+      fButtonState:= bsFocused
+    else
+      fButtonState:= bsNormal;
   end
- else
-  fButtonState:= bsDisabled;
- if TempValue <> fButtonState then
-  Invalidate;
+  else
+    fButtonState:= bsDisabled;
+  if TempValue <> fButtonState then
+    Invalidate;
 end;
 
 procedure TAeroStatusButton.WndProc(var Message: TMessage);
 begin
- Inherited WndProc(Message);
- case Message.Msg of
-   CM_MOUSEENTER, CM_MOUSELEAVE, CM_ENABLEDCHANGED,
-   WM_LBUTTONDOWN, WM_LBUTTONUP: UpDateButtonState;
- end;
+  Inherited WndProc(Message);
+  case Message.Msg of
+    CM_MOUSEENTER, CM_MOUSELEAVE, CM_ENABLEDCHANGED,
+    WM_LBUTTONDOWN, WM_LBUTTONUP: UpDateButtonState;
+  end;
 end;
 
 
@@ -314,7 +344,10 @@ procedure TAeroStatusButton.ThemedRender(const PaintDC: hDC; const Surface: TGPG
 var
   iState: Integer;
 begin
-  RenderImage(PaintDC);
+  if AeroCore.CompositionActive then
+    RenderCompositeImage(PaintDC)
+  else
+    RenderImage(PaintDC);
   case fButtonState of
     bsNormal: iState:= 1;
     bsHightLight: iState:= 2;
@@ -330,9 +363,8 @@ end;
 
 procedure TAeroStatusButton.ClassicRender(const ACanvas: TCanvas);
 begin
- RenderImage(ACanvas.Handle);
-
- AeroCore.RenderText(ACanvas.Handle,Self.Font,GetTextFormat,GetClientRect,Caption);
+  RenderImage(ACanvas.Handle);
+  AeroCore.RenderText(ACanvas.Handle,Self.Font,GetTextFormat,GetClientRect,Caption);
 end;
 
 

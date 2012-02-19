@@ -55,19 +55,19 @@ Uses
   
 { TAeroTaskButton }
 
-Constructor TAeroTaskButton.Create(AOwner: TComponent);
+constructor TAeroTaskButton.Create(AOwner: TComponent);
 begin
- Inherited Create(AOwner);
- AutoSize:= True;
- fDrawGlow:= False;
- Cursor:= crHandPoint;
- fImagePos:= tbLeft;
+  inherited Create(AOwner);
+  AutoSize:= True;
+  fDrawGlow:= False;
+  Cursor:= crHandPoint;
+  fImagePos:= tbLeft;
 end;
 
-Destructor TAeroTaskButton.Destroy;
+destructor TAeroTaskButton.Destroy;
 begin
 
- Inherited Destroy;
+  inherited Destroy;
 end;
 
 procedure TAeroTaskButton.SetTextStyle(const DrawState: Integer);
@@ -103,135 +103,139 @@ end;
 
 function TAeroTaskButton.CanAutoSize(var NewWidth, NewHeight: Integer): Boolean;
 begin
- Result:= True;
- with GetContentSize do
+  Result:= True;
+  with GetContentSize do
   if IsRunTime or (cx > 0) and (cy > 0) then
-   begin
+  begin
     if Align in [alNone, alLeft, alRight] then
-     NewWidth:= cx;
+      NewWidth:= cx;
     if Align in [alNone, alTop, alBottom] then
-     NewHeight := cy;
-   end;
+      NewHeight := cy;
+  end;
 end;
 
 function TAeroTaskButton.GetContentSize: TSize;
 var
- TextSize: TSize;
- ImageSize: TSize;
+  TextSize: TSize;
+  ImageSize: TSize;
 begin
- TextSize.cx:= 0;
- TextSize.cy:= 0;
- ImageSize.cx:= 0;
- ImageSize.cy:= 0;
- if Assigned(Parent) then
+  TextSize.cx:= 0;
+  TextSize.cy:= 0;
+  ImageSize.cx:= 0;
+  ImageSize.cy:= 0;
+  if Assigned(Parent) then
   begin
-   if ButtonState = bsNormal then
-    Self.Font.Style:= []
-   else
-    Self.Font.Style:= [fsUnderline];
-   Canvas.Font:= Self.Font;
-   TextSize:= Canvas.TextExtent(Caption);
-   if fDrawGlow then
+    if ButtonState = bsNormal then
+      Self.Font.Style:= []
+    else
+      Self.Font.Style:= [fsUnderline];
+    Canvas.Font:= Self.Font;
+    TextSize:= Canvas.TextExtent(Caption);
+    if fDrawGlow then
     begin
-     TextSize.cx:= TextSize.cx+24;
-     TextSize.cy:= TextSize.cy+24; 
+      TextSize.cx:= TextSize.cx+24;
+      TextSize.cy:= TextSize.cy+24;
     end;
-   if Assigned(Image.Data) then
-    ImageSize:= Image.PartSize;
-   Result.cY:= Max(ImageSize.cy,TextSize.cy);
-   Result.cX:= ImageSize.cx + TextSize.cx + 4;
+    if Assigned(Image.Data) then
+      ImageSize:= Image.PartSize;
+    Result.cY:= Max(ImageSize.cy,TextSize.cy);
+    Result.cX:= ImageSize.cx + TextSize.cx + 4;
   end
- else
+  else
   begin
-   Result.cx:= ClientWidth;
-   Result.cy:= ClientHeight;  
+    Result.cx:= ClientWidth;
+    Result.cy:= ClientHeight;
   end;
 end;
 
 procedure TAeroTaskButton.SetDrawGlow(const Value: Boolean);
 begin
- if fDrawGlow <> Value then
+  if fDrawGlow <> Value then
   begin
-   fDrawGlow:= Value;
-   if AutoSize then SetBounds(Left,Top,Width+1,Height-1);
-   Invalidate;
+    fDrawGlow:= Value;
+    if AutoSize then
+      SetBounds(Left,Top,Width+1,Height-1);
+    Invalidate;
   end;
 end;
 
 procedure TAeroTaskButton.SetImagePos(const Value: TTaskButtonImagePos);
 begin
- if fImagePos <> Value then
+  if fImagePos <> Value then
   begin
-   fImagePos:= Value;
-   Invalidate;
+    fImagePos:= Value;
+    Invalidate;
   end;
 end;
 
 function TAeroTaskButton.GetRenderState: TARenderConfig;
 begin
- Result:= [];
+  Result:= [];
 end;
 
 function TAeroTaskButton.GetTextRect: TRect;
 begin
- if Assigned(Image.Data) then
+  if Assigned(Image.Data) then
   begin
-   Result:= ClientRect;
-   if fDrawGlow then
+    Result:= ClientRect;
+    if fDrawGlow then
     begin
-    
+
     end
-   else
+    else
     case fImagePos of
       tbLeft : Result.Left:= Result.Left+(Image.PartWidth+4);
       tbRight: Result.Right:= Result.Right-(Image.PartWidth+4);
     end;
   end
- else
-  Result:= ClientRect;
+  else
+    Result:= ClientRect;
 end;
 
 function TAeroTaskButton.GetThemeClassName: PWideChar;
 begin
- Result:= VSCLASS_BUTTON;
+  Result:= VSCLASS_BUTTON;
 end;
 
 procedure TAeroTaskButton.PostRender(const Surface: TCanvas; const RConfig: TARenderConfig; const DrawState: Integer);
 begin
- // nothing here
+  // nothing here
 end;
 
 procedure TAeroTaskButton.ClassicRender(const ACanvas: TCanvas; const DrawState: Integer);
 begin
- if Assigned(Image.Data) then DrawButtonImage(ACanvas.Handle,ButtonState);
- SetTextStyle(DrawState);
- AeroCore.RenderText(ACanvas.Handle,Self.Font,lTextFormat,GetTextRect,Caption);
+  if Assigned(Image.Data) then
+    DrawButtonImage(ACanvas.Handle,ButtonState);
+  SetTextStyle(DrawState);
+  AeroCore.RenderText(ACanvas.Handle,Self.Font,lTextFormat,GetTextRect,Caption);
 end;
 
 procedure TAeroTaskButton.DrawButtonImage(const PaintDC: hDC; const DrawState: TAeroButtonState);
 var
- ImgPos: TPoint;
+  ImgPos: TPoint;
 begin
- ImgPos.Y:= (Self.Height div 2)-(Image.PartHeight div 2);
- case fImagePos of
-   tbLeft : ImgPos.X:= 0;
-   tbRight: ImgPos.X:= Self.Width-Image.PartWidth;
- end;
+  ImgPos.Y:= (Self.Height div 2)-(Image.PartHeight div 2);
+  case fImagePos of
+    tbLeft : ImgPos.X:= 0;
+    tbRight: ImgPos.X:= Self.Width-Image.PartWidth;
+  end;
 
- case DrawState of
-   bsNormal    : AeroPicture.DrawPart(PaintDC,Image.Data.Canvas.Handle,ImgPos,Image.PartSize,Image.PartNormal,Image.Orientation);
-   bsHightLight: AeroPicture.DrawPart(PaintDC,Image.Data.Canvas.Handle,ImgPos,Image.PartSize,Image.PartHightLight,Image.Orientation);
-   bsFocused   : AeroPicture.DrawPart(PaintDC,Image.Data.Canvas.Handle,ImgPos,Image.PartSize,Image.PartNormal,Image.Orientation);
-   bsDown      : AeroPicture.DrawPart(PaintDC,Image.Data.Canvas.Handle,ImgPos,Image.PartSize,Image.PartDown,Image.Orientation);
-   bsDisabled  : AeroPicture.DrawPart(PaintDC,Image.Data.Canvas.Handle,ImgPos,Image.PartSize,Image.PartDisabled,Image.Orientation);
- end;
+  case DrawState of
+    bsNormal    : AeroPicture.DrawPart(PaintDC,Image.Data.Canvas.Handle,ImgPos,Image.PartSize,Image.PartNormal,Image.Orientation);
+    bsHightLight: AeroPicture.DrawPart(PaintDC,Image.Data.Canvas.Handle,ImgPos,Image.PartSize,Image.PartHightLight,Image.Orientation);
+    bsFocused   : AeroPicture.DrawPart(PaintDC,Image.Data.Canvas.Handle,ImgPos,Image.PartSize,Image.PartNormal,Image.Orientation);
+    bsDown      : AeroPicture.DrawPart(PaintDC,Image.Data.Canvas.Handle,ImgPos,Image.PartSize,Image.PartDown,Image.Orientation);
+    bsDisabled  : AeroPicture.DrawPart(PaintDC,Image.Data.Canvas.Handle,ImgPos,Image.PartSize,Image.PartDisabled,Image.Orientation);
+  end;
 end;
 
 procedure TAeroTaskButton.RenderState(const PaintDC: hDC; var Surface: TGPGraphics; var RConfig: TARenderConfig; const DrawState: Integer);
 begin
- if Assigned(Image.Data) then DrawButtonImage(PaintDC,ButtonState);
- SetTextStyle(DrawState);
- AeroCore.RenderText(PaintDC,ThemeData,BP_PUSHBUTTON,PBS_NORMAL,Self.Font,lTextFormat,GetTextRect,Caption,fDrawGlow);
+  if Assigned(Image.Data) then
+    DrawButtonImage(PaintDC,ButtonState);
+  SetTextStyle(DrawState);
+  AeroCore.RenderText(PaintDC, ThemeData, BP_PUSHBUTTON, PBS_NORMAL, Self.Font,
+    lTextFormat, GetTextRect, Caption, fDrawGlow);
 end;
 
 end.

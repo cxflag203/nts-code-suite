@@ -7,11 +7,11 @@
 {                                                       }
 {*******************************************************}
 
-Unit NTS.UI.Aero.Environment.Register.Components;
+unit NTS.UI.Aero.Environment.Register.Components;
 
-Interface
+interface
 
-Uses
+uses
   Classes, DesignIntf, TypInfo,
   UI.Aero.Window,
   UI.Aero.SearchBox,

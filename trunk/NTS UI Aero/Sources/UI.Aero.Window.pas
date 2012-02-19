@@ -70,14 +70,15 @@ type
     procedure SetLines(const Value: TStrings);
     function GetStringListText: String;
     procedure SetLinesCount(const Value: Integer);
-  Protected
+  protected
     Procedure AEROWindowProc(var Message: TMessage); OverRide;
     Procedure ChangeTaskBar;
     Procedure ChangeCaptionBar;
-  Public
+  public
     Constructor Create(AOwner: TComponent); OverRide;
     Destructor Destroy; OverRide;
-  Published
+    function GetString(Index: Integer): string; inline;
+  published
     property Icon: TImageFileName Read fIcon Write SetIcon;
     property ShowInTaskBar: BooLean Read fShowInTaskBar Write SetShowInTaskBar Default True;
     property ShowCaptionBar: BooLean Read fShowCaptionBar Write SetShowCaptionBar Default True;
@@ -378,6 +379,14 @@ begin
       Window.Perform(WM_SysCommand, SC_DragMove, 0);
     end;
   end;
+end;
+
+function TAeroWindow.GetString(Index: Integer): string;
+begin
+  if (StringList.Count > 0) and (Index >= 0) and (Index < StringList.Count) then
+    Result:= StringList[Index]
+  else
+    Result:= 'LangString:'+IntToStr(Index);
 end;
 
 function TAeroWindow.GetStringListText: String;

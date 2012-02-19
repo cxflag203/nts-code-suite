@@ -50,7 +50,8 @@ begin
       Options.dwFlags:= Options.dwFlags or DTT_GLOWSIZE;
       Options.iGlowSize:= 12;
     end;
-    DrawThemeTextEx(ATheme,ADC,APartID,AStateID,StringToOleStr(AText),-1,AFormat,@ARect,Options);
+    DrawThemeTextEx(ATheme, ADC, APartID, AStateID, PWideChar(AText), -1,
+      AFormat, @ARect, Options);
   end
   else
     DrawXP(ADC,ATheme,APartID,AStateID,AFont,AFormat,ARect,AText,AGlow);
