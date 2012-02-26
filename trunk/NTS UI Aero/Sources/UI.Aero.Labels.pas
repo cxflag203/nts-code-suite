@@ -30,16 +30,17 @@ type
     procedure SetWordWrap(const Value: Boolean);
     function GetTextSize: TSize;
     procedure SetTextGlow(const Value: BooLean);
-  Protected
+  protected
     function GetRenderState: TRenderConfig; OverRide;
     procedure ClassicRender(const ACanvas: TCanvas); OverRide;
     procedure ThemedRender(const PaintDC: hDC; const Surface: TGPGraphics; var RConfig: TRenderConfig); OverRide;
     function GetThemeClassName: PWideChar; override;
     function CanAutoSize(var NewWidth, NewHeight: Integer): Boolean; override;
     procedure PostRender(const Surface: TCanvas; const RConfig: TRenderConfig); override;
-  Public
+    function GetCaptionRect: TRect;
+  public
     Constructor Create(AOwner: TComponent); OverRide;
-  Published
+  published
     property Caption;
     property AutoSize Default True;
     property TextGlow: BooLean Read fTextGlow Write SetTextGlow Default False;
@@ -55,60 +56,61 @@ Uses
 
 { TAeroLabel }
 
-Constructor TAeroLabel.Create(AOwner: TComponent);
+constructor TAeroLabel.Create(AOwner: TComponent);
 begin
- Inherited Create(AOwner);
- AutoSize:= True;
- FAlignment:= taLeftJustify;
- FLayout:= tlTop;
- FWordWrap:= False;
- fTextGlow:= False;
+  inherited Create(AOwner);
+  AutoSize:= True;
+  FAlignment:= taLeftJustify;
+  FLayout:= tlTop;
+  FWordWrap:= False;
+  fTextGlow:= False;
 end;
 
 function TAeroLabel.GetRenderState: TRenderConfig;
 begin
- Result:= [rsBuffer];
+  Result:= [rsBuffer];
 end;
 
 function TAeroLabel.GetTextFormat: DWORD;
 begin
- Result:= 0;
- if not FWordWrap then
-  Result:= Result or DT_SINGLELINE;
- case FLayout of
-   tlTop   : Result:= Result or DT_TOP;
-   tlCenter: Result:= Result or DT_VCenter;
-   tlBottom: Result:= Result or DT_Bottom;
- end;
- case FAlignment of
-   taLeftJustify : Result:= Result or DT_LEFT;
-   taRightJustify: Result:= Result or DT_RIGHT;
-   taCenter      : Result:= Result or DT_Center;
- end;
+  Result:= 0;
+  if not FWordWrap then
+    Result:= Result or DT_SINGLELINE;
+  case FLayout of
+    tlTop   : Result:= Result or DT_TOP;
+    tlCenter: Result:= Result or DT_VCenter;
+    tlBottom: Result:= Result or DT_Bottom;
+  end;
+
+  case FAlignment of
+    taLeftJustify : Result:= Result or DT_LEFT;
+    taRightJustify: Result:= Result or DT_RIGHT;
+    taCenter      : Result:= Result or DT_Center;
+  end;
 end;
 
 function TAeroLabel.GetTextSize: TSize;
 begin
- if Assigned(Parent) then
+  if Assigned(Parent) then
   begin
-   Canvas.Font:= Self.Font;
-   Result:= Canvas.TextExtent(Caption);
-   if fTextGlow then
-    begin     
-     Result.cx:= Result.cx + 24;
-     Result.cy:= Result.cy + 24;
+    Canvas.Font:= Self.Font;
+    Result:= Canvas.TextExtent(Caption);
+    if fTextGlow then
+    begin
+      Result.cx:= Result.cx + 24;
+      Result.cy:= Result.cy + 24;
     end;
   end
- else
+  else
   begin
-   Result.cx:= ClientWidth;
-   Result.cy:= ClientHeight;
+    Result.cx:= ClientWidth;
+    Result.cy:= ClientHeight;
   end;
 end;
 
 function TAeroLabel.GetThemeClassName: PWideChar;
 begin
- Result:= VSCLASS_WINDOW;
+  Result:= VSCLASS_WINDOW;
 end;
 
 procedure TAeroLabel.PostRender(const Surface: TCanvas;const RConfig: TRenderConfig);
@@ -118,63 +120,72 @@ end;
 
 procedure TAeroLabel.SetAlignment(const Value: TAlignment);
 begin
- if FAlignment <> Value then
+  if FAlignment <> Value then
   begin
-   FAlignment:= Value;
-   Invalidate;
+    FAlignment:= Value;
+    Invalidate;
   end;
 end;
 
 procedure TAeroLabel.SetLayout(const Value: TTextLayout);
 begin
- if FLayout <> Value then
+  if FLayout <> Value then
   begin
-   FLayout:= Value;
-   Invalidate;
+    FLayout:= Value;
+    Invalidate;
   end;
 end;
 
 procedure TAeroLabel.SetTextGlow(const Value: BooLean);
 begin
- if fTextGlow <> Value then
+  if fTextGlow <> Value then
   begin
-   fTextGlow:= Value;
-   Invalidate;
-   if AutoSize then
-    SetBounds(Left,Top,Width+1,Height+1);
+    fTextGlow:= Value;
+    Invalidate;
+    if AutoSize then
+      SetBounds(Left,Top,Width+1,Height+1);
   end;
 end;
 
 procedure TAeroLabel.SetWordWrap(const Value: Boolean);
 begin
- if FWordWrap <> Value then
+  if FWordWrap <> Value then
   begin
-   FWordWrap:= Value;
-   Invalidate;
+    FWordWrap:= Value;
+    Invalidate;
   end;
 end;
 
 function TAeroLabel.CanAutoSize(var NewWidth, NewHeight: Integer): Boolean;
 begin
- Result:= True;
- with GetTextSize do
+  Result:= True;
+  with GetTextSize do
   if IsRunTime or (cx > 0) and (cy > 0) then
-   begin
+  begin
     if Align in [alNone, alLeft, alRight] then
-     NewWidth:= cx;
+      NewWidth:= cx;
     if Align in [alNone, alTop, alBottom] then
-     NewHeight := cy;
-   end;
+      NewHeight := cy;
+  end;
 end;
 
 procedure TAeroLabel.ClassicRender(const ACanvas: TCanvas);
 begin
- AeroCore.RenderText(ACanvas.Handle,Self.Font,GetTextFormat,GetClientRect,Caption);
+  AeroCore.RenderText(ACanvas.Handle, Self.Font, GetTextFormat, GetCaptionRect,
+    Caption);
 end;
 
 procedure TAeroLabel.ThemedRender(const PaintDC: hDC; const Surface: TGPGraphics; var RConfig: TRenderConfig);
 begin
- AeroCore.RenderText(PaintDC,ThemeData,1,1,Self.Font,GetTextFormat,GetClientRect,Caption,fTextGlow);
+  AeroCore.RenderText(PaintDC, ThemeData, 1, 1, Self.Font, GetTextFormat,
+    GetCaptionRect, Caption, fTextGlow);
+end;
+
+function TAeroLabel.GetCaptionRect: TRect;
+begin
+  Result:= GetClientRect;
+  if fTextGlow then
+    Result.Left:= Result.Left+8;
 end;
 
 end.
