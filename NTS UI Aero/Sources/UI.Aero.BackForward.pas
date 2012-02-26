@@ -72,10 +72,12 @@ type
     FTravelMenu: TPopupMenu;
     FMenuTimer: TTimer;
     FOnBtnClick: TButtonClickEvent;
+    FOnlyBackButton: Boolean;
     function GetButtonEnabled(const Index: Integer): boolean;
     procedure SetButtonEnabled(const Index: Integer; const Value: boolean);
     procedure SetTravelMenu(const Value: TPopupMenu);
     procedure ShowTravelMenu(Sender: TObject);
+    procedure SetOnlyBackButton(const Value: Boolean);
   Protected
     function GetRenderState: TRenderConfig; override;
     procedure RenderControl(const PaintDC: hDC);
@@ -92,6 +94,7 @@ type
     Constructor Create(AOwner: TComponent); override;
     Destructor Destroy; override;
   Published
+    property OnlyBackButton: Boolean read FOnlyBackButton write SetOnlyBackButton default false;
     property EnabledBack: boolean index 0 read GetButtonEnabled write SetButtonEnabled default false;
     property EnabledForward: boolean index 1 read GetButtonEnabled write SetButtonEnabled default false;
     property TravelMenu: TPopupMenu read FTravelMenu write SetTravelMenu;
@@ -301,18 +304,6 @@ end;
 
 { TAeroIEBackForward }
 
-procedure TAeroIEBackForward.Click;
-begin
-  inherited Click;
-  if Assigned(FOnBtnClick) then
-  begin
-    if FStateBack in [bsHightLight, bsDown] then
-      FOnBtnClick(Self, 0);
-    if FStateForward in [bsHightLight, bsDown] then
-      FOnBtnClick(Self, 1);
-  end;
-end;
-
 Constructor TAeroIEBackForward.Create(AOwner: TComponent);
 begin
   Inherited Create(AOwner);
@@ -320,6 +311,8 @@ begin
   FMenuTimer.Enabled:= False;
   FMenuTimer.Interval:= 300;
   FMenuTimer.OnTimer:= ShowTravelMenu;
+
+  FOnlyBackButton:= False;
 
   FStateBack:= bsDisabled;
   FStateForward:= bsDisabled;
@@ -356,6 +349,18 @@ begin
   Result:= [rsBuffer];
 end;
 
+procedure TAeroIEBackForward.Click;
+begin
+  inherited Click;
+  if Assigned(FOnBtnClick) then
+  begin
+    if FStateBack in [bsHightLight, bsDown] then
+      FOnBtnClick(Self, 0);
+    if FStateForward in [bsHightLight, bsDown] then
+      FOnBtnClick(Self, 1);
+  end;
+end;
+
 procedure TAeroIEBackForward.ThemedRender(const PaintDC: hDC; const Surface: TGPGraphics; var RConfig: TRenderConfig);
 begin
   RenderControl(PaintDC);
@@ -380,23 +385,36 @@ procedure TAeroIEBackForward.RenderControl(const PaintDC: hDC);
   end;
 
 begin
-  AeroPicture.Draw(PaintDC, bmBackground, Point(0, 1) );
+  if not FOnlyBackButton then
+    AeroPicture.Draw(PaintDC, bmBackground, Point(0, 1) );
   if Self.Enabled then
   begin
     if csDesigning in ComponentState then
     begin
-      AeroPicture.DrawPart( PaintDC, bmMask.Canvas.Handle, Point(0,0), Size(38, 35), 0, ioHorizontal );
-      AeroPicture.DrawPart( PaintDC, bmButton[bsNormal].Canvas.Handle, Point(0,0), Size(38, 35), 0, ioHorizontal );
-      AeroPicture.DrawPart( PaintDC, bmButton[bsDisabled].Canvas.Handle, Point(38,0), Size(38, 35), 1, ioHorizontal );
+      AeroPicture.DrawPart( PaintDC, bmMask.Canvas.Handle, Point(0,0),
+        Size(38, 35), 0, ioHorizontal );
+      AeroPicture.DrawPart( PaintDC, bmButton[bsNormal].Canvas.Handle,
+        Point(0,0), Size(38, 35), 0, ioHorizontal );
+      if not FOnlyBackButton then
+        AeroPicture.DrawPart( PaintDC, bmButton[bsDisabled].Canvas.Handle,
+          Point(38,0), Size(38, 35), 1, ioHorizontal );
     end
     else
     begin
       if FStateBack <> bsDisabled then
-        AeroPicture.DrawPart( PaintDC, bmMask.Canvas.Handle, Point(0,0), Size(38, 35), 0, ioHorizontal );
-      if FStateForward <> bsDisabled then
-        AeroPicture.DrawPart( PaintDC, bmMask.Canvas.Handle, Point(38,0), Size(38, 35), 1, ioHorizontal );
-      AeroPicture.DrawPart( PaintDC, bmButton[FStateBack].Canvas.Handle, Point(0,0), Size(38, 35), 0, ioHorizontal );
-      AeroPicture.DrawPart( PaintDC, bmButton[FStateForward].Canvas.Handle, Point(38,0), Size(38, 35), 1, ioHorizontal );
+        AeroPicture.DrawPart( PaintDC, bmMask.Canvas.Handle, Point(0,0),
+          Size(38, 35), 0, ioHorizontal );
+
+      if not FOnlyBackButton and (FStateForward <> bsDisabled) then
+        AeroPicture.DrawPart( PaintDC, bmMask.Canvas.Handle, Point(38,0),
+          Size(38, 35), 1, ioHorizontal );
+
+      AeroPicture.DrawPart( PaintDC, bmButton[FStateBack].Canvas.Handle,
+        Point(0,0), Size(38, 35), 0, ioHorizontal );
+
+      if not FOnlyBackButton then
+        AeroPicture.DrawPart( PaintDC, bmButton[FStateForward].Canvas.Handle,
+          Point(38,0), Size(38, 35), 1, ioHorizontal );
     end;
   end
   else
@@ -410,6 +428,15 @@ begin
     1: if Value then FStateForward:= bsNormal else FStateForward:= bsDisabled;
   end;
   Invalidate;
+end;
+
+procedure TAeroIEBackForward.SetOnlyBackButton(const Value: Boolean);
+begin
+  if FOnlyBackButton <> Value then
+  begin
+    FOnlyBackButton := Value;
+    Invalidate;
+  end;
 end;
 
 procedure TAeroIEBackForward.SetTravelMenu(const Value: TPopupMenu);
