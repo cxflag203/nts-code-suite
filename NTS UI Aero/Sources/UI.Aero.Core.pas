@@ -75,7 +75,8 @@ end;
 
 class procedure AeroCore.RenderText(ADC: hDC; ATheme: hTheme; APartID, AStateID: Integer; AFont: TFont; AFormat: DWORD; ARect: TRect; AText: String; AGlow: BooLean);
 begin
-  RenderFunction(ADC,ATheme,APartID,AStateID,AFont,AFormat,ARect,AText,AGlow);
+  RenderFunction(ADC, ATheme, APartID, AStateID, AFont, AFormat, ARect, AText,
+    AGlow);
 end;
 
 Initialization
