@@ -8,8 +8,6 @@
 {*******************************************************}
 
 package NTS.CodeLibrary;
-{$I '../Common/CompilerVersion.Inc'}
-
 {$R *.res}
 {$ALIGN 8}
 {$ASSERTIONS ON}

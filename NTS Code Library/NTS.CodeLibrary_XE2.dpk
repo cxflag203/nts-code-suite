@@ -8,8 +8,6 @@
 {*******************************************************}
 
 package NTS.CodeLibrary_XE2;
-{$I '../Common/CompilerVersion.Inc'}
-
 {$R *.res}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
