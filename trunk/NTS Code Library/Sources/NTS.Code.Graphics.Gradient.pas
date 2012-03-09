@@ -11,8 +11,14 @@ unit NTS.Code.Graphics.Gradient;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
+  {$IFDEF HAS_UNITSCOPE}
+  Winapi.Windows, System.SysUtils, Vcl.Graphics, System.Classes;
+  {$ELSE}
   Windows, SysUtils, Graphics, Classes;
+  {$ENDIF}
 
 type
   TGradientType = ( gtHorizontal, gtVertical, gtRainbow, gtCircle, gtltTopBottom, gtWindow );

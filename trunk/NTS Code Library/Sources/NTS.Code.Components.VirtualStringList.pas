@@ -11,8 +11,14 @@ unit NTS.Code.Components.VirtualStringList;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
+  {$IFDEF HAS_UNITSCOPE}
+  System.Classes, System.SysUtils;
+  {$ELSE}
   Classes, SysUtils;
+  {$ENDIF}
 
 type
   TVirtualStringList = class(TComponent)

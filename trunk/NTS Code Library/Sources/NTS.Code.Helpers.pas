@@ -11,8 +11,14 @@ unit NTS.Code.Helpers;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 Uses
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils, Winapi.Windows, System.Classes, System.Math;
+  {$ELSE}
   SysUtils, Windows, Classes, Math;
+  {$ENDIF}
 
 type
   TPointHelper = Record Helper for TPoint
@@ -38,7 +44,7 @@ end;
 
 function TPointHelper.InRect(ARect: TRect): BooLean;
 begin
-  Result:= Windows.PtInRect(ARect,Self);
+  Result:= {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}Windows.PtInRect(ARect,Self);
 end;
 
 function TPointHelper.ToString: String;
