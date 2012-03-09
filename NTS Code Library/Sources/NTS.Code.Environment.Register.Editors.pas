@@ -11,9 +11,17 @@ unit NTS.Code.Environment.Register.Editors;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 Uses
-  Classes, DesignIntf, TypInfo, DesignEditors,
-  NTS.Code.Common.Types, NTS.Code.Environment.PropertyEditors;
+  {$IFDEF HAS_UNITSCOPE}
+  System.Classes, System.TypInfo,
+  {$ELSE}
+  Classes, TypInfo,
+  {$ENDIF}
+  DesignIntf, DesignEditors,
+  NTS.Code.Common.Types,
+  NTS.Code.Environment.PropertyEditors;
   
   Procedure Register;
 

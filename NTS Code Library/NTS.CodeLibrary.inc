@@ -1,3 +1,3 @@
 
-// If you have instelled other GDIPlus lib, undefine this
+// If you have instelled other GDIPlus lib, comment this line
 {$DEFINE REQUIRES_GDIPLUS}

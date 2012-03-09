@@ -11,9 +11,16 @@ unit NTS.Code.Components.WindowConfig;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
-  Classes, SysUtils, Windows, Messages, Forms, NTS.Code.Common.Types,
-  UxTheme, DwmApi;
+  {$IFDEF HAS_UNITSCOPE}
+  System.Classes, System.SysUtils, Winapi.Windows, Winapi.Messages, Vcl.Forms,
+  Winapi.UxTheme, Winapi.DwmApi,
+  {$ELSE}
+  Classes, SysUtils, Windows, Messages, Forms, UxTheme, DwmApi,
+  {$ENDIF}
+  NTS.Code.Common.Types;
 
 type             
   TWindowConfig = class(TComponent)

@@ -11,8 +11,14 @@ unit NTS.Code.Environment.Register.Components;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
+  {$IFDEF HAS_UNITSCOPE}
+  System.Classes,
+  {$ELSE}
   Classes,
+  {$ENDIF}
   NTS.Code.Components.VirtualStringList,
   NTS.Code.Components.WindowConfig;
 

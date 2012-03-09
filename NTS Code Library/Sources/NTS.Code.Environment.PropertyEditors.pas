@@ -11,9 +11,16 @@ unit NTS.Code.Environment.PropertyEditors;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 Uses
-  Classes, DesignIntf, TypInfo, DesignEditors, Dialogs,
-  ExtDlgs, Forms, ColnEdit, ComCtrls;
+  {$IFDEF HAS_UNITSCOPE}
+  System.Classes, System.TypInfo,
+  Vcl.Dialogs, Vcl.ExtDlgs, Vcl.Forms, Vcl.ComCtrls,
+  {$ELSE}
+  Classes, TypInfo, Dialogs, ExtDlgs, Forms, ComCtrls,
+  {$ENDIF}
+  DesignIntf,  DesignEditors, ColnEdit;
 
 type
   TFileNameEditor = class(TStringProperty)
