@@ -11,10 +11,30 @@ unit UI.Aero.ColorHost;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.UxTheme,
+  Winapi.GDIPOBJ,
+  Winapi.GDIPAPI,
+
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.ExtCtrls,
+  {$ELSE}
   Windows, SysUtils, Messages, Classes, Controls, Graphics,
-  UI.Aero.Globals, UI.Aero.Core, UI.Aero.Core.CustomControl,
-  GDIPOBJ, GDIPAPI, UxTheme, UI.Aero.Core.Images, ExtCtrls;
+  GDIPOBJ, GDIPAPI, UxTheme, ExtCtrls,
+  {$ENDIF}
+  UI.Aero.Globals,
+  UI.Aero.Core,
+  UI.Aero.Core.CustomControl,
+  UI.Aero.Core.Images;
   
 type
   TAeroColorItem = Class;

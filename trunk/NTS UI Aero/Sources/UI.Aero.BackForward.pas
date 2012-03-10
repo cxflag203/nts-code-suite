@@ -11,11 +11,30 @@ unit UI.Aero.BackForward;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.GDIPUTIL,
+  Winapi.GDIPOBJ,
+  Winapi.GDIPAPI,
+  Vcl.Controls,
+  Vcl.Graphics,
+  Vcl.Imaging.pngimage,
+  Vcl.Menus,
+  Vcl.ExtCtrls,
+  {$ELSE}
   Windows, SysUtils, Messages, Classes, Controls, Graphics, Menus,
-  GDIPUTIL, GDIPOBJ, GDIPAPI, ExtCtrls,
-  UI.Aero.Globals, UI.Aero.Core, UI.Aero.Button.Theme,
-  UI.Aero.Button.Custom, PNGImage,
+  GDIPUTIL, GDIPOBJ, GDIPAPI, ExtCtrls, PNGImage,
+  {$ENDIF}
+  UI.Aero.Globals,
+  UI.Aero.Core,
+  UI.Aero.Button.Theme,
+  UI.Aero.Button.Custom,
   UI.Aero.Button.Image,
   UI.Aero.Core.CustomControl,
   UI.Aero.Core.Images;

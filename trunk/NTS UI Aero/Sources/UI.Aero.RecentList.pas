@@ -11,10 +11,29 @@ unit UI.Aero.RecentList;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.UxTheme,
+  Winapi.GDIPOBJ,
+
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Imaging.pngimage,
+  {$ELSE}
   Windows, Messages, SysUtils, Classes, Controls, Graphics, GDIPOBJ,
-  UI.Aero.Core.CustomControl, Themes, UxTheme, NTS.Code.Common.Types, GDIPAPI,
-  UI.Aero.Globals, UI.Aero.Core.BaseControl, PNGImage;
+  Themes, UxTheme, GDIPAPI, PNGImage,
+  {$ENDIF}
+  NTS.Code.Common.Types,
+  UI.Aero.Core.CustomControl,
+  UI.Aero.Globals,
+  UI.Aero.Core.BaseControl;
 
 type
   TItemHoverState = (hsNone, hsFull, hsButton);
@@ -317,7 +336,7 @@ end;
 
 procedure TAeroRecentList.RenderProcedure_XP(const ACanvas: TCanvas);
 begin
- RenderProcedure_Vista(ACanvas);
+  RenderProcedure_Vista(ACanvas);
 end;
 
 procedure TAeroRecentList.RenderProcedure_Vista(const ACanvas: TCanvas);
@@ -336,38 +355,38 @@ const
   end;
 
 var
- I,ItemTop: Integer;
- OldBkMode: integer;
- capRect: TRect;
+  I, ItemTop: Integer;
+  OldBkMode: integer;
+  capRect: TRect;
 begin
- ACanvas.Brush.Color:= Self.Color;
- ACanvas.FillRect( Rect(0,0,Width,Height) );
- ACanvas.Draw(-(bgIMg.Width-Self.Width),Self.Height-bgIMg.Height,bgIMg);
+  ACanvas.Brush.Color:= Self.Color;
+  ACanvas.FillRect( Rect(0,0,Width,Height) );
+  ACanvas.Draw(-(bgIMg.Width-Self.Width),Self.Height-bgIMg.Height,bgIMg);
 
- ACanvas.Font.Color:= clNavy;
- ACanvas.Font.Style:= [fsBold];
- capRect:= ClientRect;
- capRect:= Bounds(capRect.Left+8,capRect.Top+0,ClientWidth,20);
- OldBkMode:= SetBkMode(ACanvas.Handle,1);
- DrawText(ACanvas.Handle,PChar(Caption),-1,capRect,capFormat);
- SetBkMode(ACanvas.Handle,OldBkMode);
+  ACanvas.Font.Color:= clNavy;
+  ACanvas.Font.Style:= [fsBold];
+  capRect:= ClientRect;
+  capRect:= Bounds(capRect.Left+8,capRect.Top+0,ClientWidth,20);
+  OldBkMode:= SetBkMode(ACanvas.Handle,1);
+  DrawText(ACanvas.Handle,PChar(Caption),-1,capRect,capFormat);
+  SetBkMode(ACanvas.Handle,OldBkMode);
 //
- ACanvas.Font.Color:= clBlack;
- ACanvas.Font.Style:= [];
- capRect:= ClientRect;
- capRect:= Bounds(0,0,ClientWidth,20);
- OldBkMode:= SetBkMode(ACanvas.Handle,1);
- DrawText(ACanvas.Handle,PChar(Hint),-1,capRect,verFormat);
- SetBkMode(ACanvas.Handle,OldBkMode);
+  ACanvas.Font.Color:= clBlack;
+  ACanvas.Font.Style:= [];
+  capRect:= ClientRect;
+  capRect:= Bounds(0,0,ClientWidth,20);
+  OldBkMode:= SetBkMode(ACanvas.Handle,1);
+  DrawText(ACanvas.Handle,PChar(Hint),-1,capRect,verFormat);
+  SetBkMode(ACanvas.Handle,OldBkMode);
 //
- capRect:= ClientRect;
- BevelLine(clBtnShadow, capRect.Left, capRect.Top+20, ClientWidth, 20);
- BevelLine(cl3DLight, capRect.Left, capRect.Top+21, ClientWidth, 21);
- ItemTop:= 24;
- for I:=0 to fItems.Count-1 do
+  capRect:= ClientRect;
+  BevelLine(clBtnShadow, capRect.Left, capRect.Top+20, ClientWidth, 20);
+  BevelLine(cl3DLight, capRect.Left, capRect.Top+21, ClientWidth, 21);
+  ItemTop:= 24;
+  for I:=0 to fItems.Count-1 do
   begin
-   DrawItem(ACanvas,fItems[I],ItemTop);
-   ItemTop:= ItemTop+21;
+    DrawItem(ACanvas, fItems[I], ItemTop);
+    ItemTop:= ItemTop+21;
   end;
 end;
 
@@ -384,45 +403,45 @@ begin
     if IsPinHover then
       itRect:= Bounds(ClientWidth-32,ItemTop,32,21)
     else
-      if IsFolderHover then
-        itRect:= Bounds(ClientWidth-64,ItemTop,32,21)
-      else
-        if Item.Enabled then
-          itRect:= Bounds(ClientRect.Left,ItemTop,ClientWidth-8,21)
-        else
-          itRect:= Bounds(0,0,0,0);
+    if IsFolderHover then
+      itRect:= Bounds(ClientWidth-64,ItemTop,32,21)
+    else
+    if Item.Enabled then
+      itRect:= Bounds(ClientRect.Left,ItemTop,ClientWidth-8,21)
+    else
+      itRect:= Bounds(0,0,0,0);
     DrawThemeBackground(ThemeData,ACanvas.Handle,LVP_LISTITEM,fStateId,itRect,nil);
   end;
 
- if Item.Enabled then
-  ACanvas.Font.Color:= clBlack
- else
-  ACanvas.Font.Color:= clSilver;
- ACanvas.Font.Style:= [];
+  if Item.Enabled then
+    ACanvas.Font.Color:= clBlack
+  else
+    ACanvas.Font.Color:= clSilver;
+  ACanvas.Font.Style:= [];
 
- if Item.Index <= 8 then
+  if Item.Index <= 8 then
   begin
-   ACanvas.Font.Style:= [fsUnderline];
-   itRect:= Bounds(ClientRect.Left+8,ItemTop,22,21);
-   OldBkMode:= SetBkMode(ACanvas.Handle,1);
-   DrawText(ACanvas.Handle,PChar(IntToStr(Item.Index+1)),-1,itRect,capFormat);
-   SetBkMode(ACanvas.Handle,OldBkMode);
-   ACanvas.Font.Style:= [];
-   itRect:= Bounds(ClientRect.Left+22,ItemTop,ClientWidth-94,21);
+    ACanvas.Font.Style:= [fsUnderline];
+    itRect:= Bounds(ClientRect.Left+8,ItemTop,22,21);
+    OldBkMode:= SetBkMode(ACanvas.Handle,1);
+    DrawText(ACanvas.Handle,PChar(IntToStr(Item.Index+1)),-1,itRect,capFormat);
+    SetBkMode(ACanvas.Handle,OldBkMode);
+    ACanvas.Font.Style:= [];
+    itRect:= Bounds(ClientRect.Left+22,ItemTop,ClientWidth-94,21);
   end
- else
-  itRect:= Bounds(ClientRect.Left+22,ItemTop,ClientWidth-94,21);
+  else
+    itRect:= Bounds(ClientRect.Left+22,ItemTop,ClientWidth-94,21);
 
- OldBkMode:= SetBkMode(ACanvas.Handle,1);
- DrawText(ACanvas.Handle,PChar(Item.Name),-1,itRect,capFormat);
- SetBkMode(ACanvas.Handle,OldBkMode);
+  OldBkMode:= SetBkMode(ACanvas.Handle,1);
+  DrawText(ACanvas.Handle,PChar(Item.Name),-1,itRect,capFormat);
+  SetBkMode(ACanvas.Handle,OldBkMode);
 
- itRect.Left:= itRect.Left+ACanvas.TextExtent(Item.Name).cx+4;
+  itRect.Left:= itRect.Left+ACanvas.TextExtent(Item.Name).cx+4;
 
- if Item.fIsPin then
-  ACanvas.Draw(ClientWidth-24,ItemTop+2,imgUnPin)
- else
-  ACanvas.Draw(ClientWidth-24,ItemTop+2,imgPin);
+  if Item.fIsPin then
+    ACanvas.Draw(ClientWidth-24,ItemTop+2,imgUnPin)
+  else
+    ACanvas.Draw(ClientWidth-24,ItemTop+2,imgPin);
 // Folders path UI 2010
   if (fHoverItem = Item.Index) then
   begin
@@ -431,14 +450,15 @@ begin
 
   ACanvas.Font.Style:= [];
   if (fHoverItem = Item.Index) and not IsPinHover then
-    begin
-      if IsFolderHover then
-        ACanvas.Font.Color:= clMaroon
-      else
-        ACanvas.Font.Color:= clNavy
-    end
+  begin
+    if IsFolderHover then
+      ACanvas.Font.Color:= clMaroon
+    else
+      ACanvas.Font.Color:= clNavy
+  end
   else
     ACanvas.Font.Color:= clSilver;
+
   OldBkMode:= SetBkMode(ACanvas.Handle,1);
   DrawText(ACanvas.Handle,PChar('('+ExtractFilePath(Item.fFileName)+')'),-1,itRect,pathFormat);
   SetBkMode(ACanvas.Handle,OldBkMode);

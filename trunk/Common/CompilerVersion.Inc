@@ -9,4 +9,5 @@
 
 {$IF System.CompilerVersion >= 23.0}
 	{$DEFINE HAS_UNITSCOPE}
+  {$DEFINE HAS_VCLSTYLES}
 {$IFEND}

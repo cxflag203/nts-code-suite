@@ -11,10 +11,30 @@ unit UI.Aero.Image;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.UxTheme,
+  Winapi.GDIPOBJ,
+
+  Vcl.Graphics,
+  Vcl.Controls,
+  {$ELSE}
   SysUtils, Windows, Messages, Classes, Controls, Graphics, UxTheme,
-  UI.Aero.Core.CustomControl, GDIPOBJ, UI.Aero.Core.Images, UI.Aero.Core.BaseControl,
-  NTS.Code.Helpers, NTS.Code.Common.Types, UI.Aero.Globals;
+  GDIPOBJ,
+  {$ENDIF}
+  NTS.Code.Common.Types,
+  NTS.Code.Helpers,
+  UI.Aero.Core.CustomControl,
+  UI.Aero.Core.Images,
+  UI.Aero.Core.BaseControl,
+  UI.Aero.Globals;
 
 type
   TAeroImage = Class(TCustomAeroControl)

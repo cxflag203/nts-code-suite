@@ -11,9 +11,27 @@ unit UI.Aero.Panel;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
-  Windows, Messages, SysUtils, Classes, Controls, Graphics, GDIPOBJ,
-  UI.Aero.Core.CustomControl, Themes, UxTheme, NTS.Code.Common.Types, GDIPAPI,
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.UxTheme,
+  Winapi.GDIPOBJ,
+  Winapi.GDIPAPI,
+
+  Vcl.Graphics,
+  Vcl.Controls,
+  {$ELSE}
+  Windows, Messages, SysUtils, Classes, Controls, Graphics, GDIPOBJ, Themes,
+  UxTheme, GDIPAPI,
+  {$ENDIF}
+  NTS.Code.Common.Types,
+  UI.Aero.Core.CustomControl,
   UI.Aero.Globals;
 
 type

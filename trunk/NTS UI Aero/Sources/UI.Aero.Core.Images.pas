@@ -11,10 +11,29 @@ unit UI.Aero.Core.Images;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Types,
-  GDIPUTIL, GDIPOBJ, GDIPAPI, PNGImage, NTS.Code.Helpers,
-  NTS.Code.Common.Types, UI.Aero.Core.BaseControl, JPEG, UI.Aero.Globals;
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+  System.Types,
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.GDIPAPI,
+  Winapi.GDIPOBJ,
+  Winapi.GDIPUTIL,
+  Vcl.Graphics,
+  Vcl.Imaging.pngimage,
+  Vcl.Imaging.JPEG,
+  {$ELSE}
+  SysUtils, Classes, Types, Windows, Messages, GDIPUTIL, GDIPOBJ, GDIPAPI,
+  Graphics, PNGImage, JPEG,
+  {$ENDIF}
+  NTS.Code.Helpers,
+  NTS.Code.Common.Types,
+  UI.Aero.Core.BaseControl,
+  UI.Aero.Globals;
 
 type
   TAeroPartImage = class(TPersistent)

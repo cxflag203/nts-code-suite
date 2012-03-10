@@ -11,10 +11,29 @@ unit UI.Aero.Core.BaseControl;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
-  SysUtils, Windows, Messages, Classes, Controls, Graphics,
-  Themes, UxTheme, DwmApi, GDIPUTIL, GDIPOBJ, GDIPAPI, Forms,
-  UI.Aero.Globals, UI.Aero.Core;
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.UxTheme,
+  Winapi.DwmApi,
+  Winapi.GDIPAPI,
+  Winapi.GDIPOBJ,
+  Winapi.GDIPUTIL,
+  Vcl.Controls,
+  Vcl.Graphics,
+  Vcl.Themes,
+  Vcl.Forms,
+  {$ELSE}
+  SysUtils, Classes, Windows, Messages, UxTheme, DwmApi, GDIPUTIL, GDIPOBJ,
+  GDIPAPI, Controls, Graphics, Themes, Forms,
+  {$ENDIF}
+  UI.Aero.Globals,
+  UI.Aero.Core;
 
 type
   TRenderProcedure = procedure(const ACanvas: TCanvas) of Object;
@@ -170,26 +189,26 @@ begin
  Result:= True;
 end;
 
-Constructor TAeroBaseControl.Create(AOwner: TComponent);
+constructor TAeroBaseControl.Create(AOwner: TComponent);
 begin
- Inherited Create(AOwner);
- ClassicBuffer:= nil;
- MouseOnControl:= False;
-// Render Procedure
- if TAeroWindow.RunWindowsVista then
-  Render:= RenderProcedure_Vista
- else
-  Render:= RenderProcedure_XP;
-// Def Style
- ControlStyle := [csCaptureMouse, csClickEvents, csSetCaption, csOpaque, csDoubleClicks, csReplicatable, csPannable];
- if ThemeServices.ThemesEnabled then
-  ControlStyle := ControlStyle+[csParentBackground]-[csOpaque]
- else
-  ControlStyle := ControlStyle-[csParentBackground]+[csOpaque];
- ParentBackground:= True;
-// Themes
- ThemeData:= 0;
- LoadThemeData;
+  inherited Create(AOwner);
+  ClassicBuffer:= nil;
+  MouseOnControl:= False;
+  // Render Procedure
+  if TAeroWindow.RunWindowsVista then
+    Render:= RenderProcedure_Vista
+  else
+    Render:= RenderProcedure_XP;
+  // Def Style
+  ControlStyle := [csCaptureMouse, csClickEvents, csSetCaption, csOpaque, csDoubleClicks, csReplicatable, csPannable];
+  if {$IFDEF HAS_VCLSTYLES}StyleServices.Enabled{$ELSE}ThemeServices.ThemesEnabled{$ENDIF} then
+    ControlStyle := ControlStyle+[csParentBackground]-[csOpaque]
+  else
+    ControlStyle := ControlStyle-[csParentBackground]+[csOpaque];
+  ParentBackground:= True;
+  // Themes
+  ThemeData:= 0;
+  LoadThemeData;
 end;
 
 Destructor TAeroBaseControl.Destroy;
@@ -281,7 +300,7 @@ end;
 
 procedure TAeroBaseControl.CurrentThemeChanged;
 begin
-  if ThemeServices.ThemesEnabled then
+  if {$IFDEF HAS_VCLSTYLES}StyleServices.Enabled{$ELSE}ThemeServices.ThemesEnabled{$ENDIF} then
     ControlStyle := ControlStyle+[csParentBackground]-[csOpaque]
   else
     ControlStyle := ControlStyle-[csParentBackground]+[csOpaque];
@@ -302,7 +321,7 @@ begin
   begin //Vista
    if Self.ControlCount = 0 then
     begin
-     if ThemeServices.ThemesEnabled then
+     if {$IFDEF HAS_VCLSTYLES}StyleServices.Enabled{$ELSE}ThemeServices.ThemesEnabled{$ENDIF} then
       Message.Result:= 1
      else
       DefaultHandler(Message);

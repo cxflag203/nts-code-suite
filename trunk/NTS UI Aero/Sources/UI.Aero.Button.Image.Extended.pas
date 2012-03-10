@@ -11,11 +11,26 @@ unit UI.Aero.Button.Image.Extended;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
-  Windows, Classes, Graphics, GDIPOBJ, Buttons,
-  UI.Aero.Core.CustomControl.Animation, UI.Aero.Button.Custom,
-  UI.Aero.Button.Image, UI.Aero.Core.Images, UI.Aero.Globals,
-  UI.Aero.Core, UxTheme, Themes;
+  {$IFDEF HAS_UNITSCOPE}
+  System.Classes,
+  Winapi.Windows,
+  Winapi.GDIPOBJ,
+  Winapi.UxTheme,
+  Vcl.Graphics,
+  Vcl.Buttons,
+  Vcl.Themes,
+  {$ELSE}
+  Windows, Classes, Graphics, GDIPOBJ, Buttons, UxTheme, Themes,
+  {$ENDIF}
+  UI.Aero.Core.CustomControl.Animation,
+  UI.Aero.Button.Custom,
+  UI.Aero.Button.Image,
+  UI.Aero.Core.Images,
+  UI.Aero.Globals,
+  UI.Aero.Core;
 
 type
   TAeroImageButtonEx = Class(TAeroImageButton)

@@ -11,10 +11,28 @@ unit UI.Aero.Core.CustomControl;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
-  SysUtils, Windows, Messages, Classes, Controls, Graphics,
-  Themes, UxTheme, DwmApi, UI.Aero.Core.BaseControl, Forms,
-  GDIPUTIL, GDIPOBJ, GDIPAPI, UI.Aero.Globals;
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.UxTheme,
+  Winapi.DwmApi,
+  Winapi.GDIPAPI,
+  Winapi.GDIPOBJ,
+  Winapi.GDIPUTIL,
+  Vcl.Controls,
+  Vcl.Graphics,
+  Vcl.Themes,
+  {$ELSE}
+  SysUtils, Classes, Windows, Messages, GDIPUTIL, GDIPOBJ, GDIPAPI, UxTheme,
+  DwmApi, Controls, Graphics, Themes,
+  {$ENDIF}
+  UI.Aero.Core.BaseControl,
+  UI.Aero.Globals;
 
 type
   TCustomAeroControl = class(TAeroBaseControl)
@@ -34,9 +52,6 @@ type
   end;
 
 implementation
-
-uses
-  UI.Aero.Core.CustomControl.Animation;
 
 { TCustomAeroControl }
 
@@ -88,7 +103,7 @@ begin
   GPSurface:= nil;
   RConfig:= [];
 //
-  if ThemeServices.ThemesEnabled then
+  if {$IFDEF HAS_VCLSTYLES}StyleServices.Enabled{$ELSE}ThemeServices.ThemesEnabled{$ENDIF} then
   begin
     if IsCompositionActive then
       RConfig:= GetRenderState+[rsComposited]
@@ -120,7 +135,7 @@ begin
   GPSurface:= nil;
   RConfig:= [];
 //
-  if ThemeServices.ThemesEnabled then
+  if {$IFDEF HAS_VCLSTYLES}StyleServices.Enabled{$ELSE}ThemeServices.ThemesEnabled{$ENDIF} then
   begin
     RConfig:= GetRenderState;
     if (rsGDIP in RConfig) then

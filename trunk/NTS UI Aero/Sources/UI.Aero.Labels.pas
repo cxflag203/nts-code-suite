@@ -11,11 +11,32 @@ unit UI.Aero.Labels;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.GDIPOBJ,
+  Winapi.UxTheme,
+
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.StdCtrls,
+  Vcl.Themes,
+  {$ELSE}
   SysUtils, Windows, Messages, Classes, Controls, Graphics, CommCtrl,
-  Themes, UxTheme, DwmApi, PNGImage, NTS.Code.Common.Types, UI.Aero.Core.BaseControl,
-  StdCtrls, Forms, GDIPUTIL, GDIPOBJ, GDIPAPI, UI.Aero.Core.CustomControl,
-  UI.Aero.Globals, UI.Aero.Core;
+  Themes, UxTheme, DwmApi, PNGImage, StdCtrls, GDIPUTIL, GDIPOBJ,
+  GDIPAPI,
+  {$ENDIF}
+  NTS.Code.Common.Types,
+  UI.Aero.Core.BaseControl,
+  UI.Aero.Core.CustomControl,
+  UI.Aero.Globals,
+  UI.Aero.Core;
 
 type
   TAeroLabel = Class(TCustomAeroControl)

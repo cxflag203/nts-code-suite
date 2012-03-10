@@ -33,7 +33,7 @@ package NTS.CodeLibrary_XE2;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'Code Library (New Technology Studio)'}
+{$DESCRIPTION 'Code Library (New Technology Studio) for XE2'}
 {$IMPLICITBUILD ON}
 
 requires

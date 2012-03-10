@@ -11,6 +11,8 @@ unit UI.Aero.Globals;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 type
   TSnapMode = ( smTop, smBottom, smLeft, smRight  );
   

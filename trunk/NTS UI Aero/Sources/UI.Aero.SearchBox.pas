@@ -11,10 +11,34 @@ unit UI.Aero.SearchBox;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.GDIPOBJ,
+  Winapi.CommCtrl,
+  Winapi.UxTheme,
+  Winapi.DwmApi,
+
+  Vcl.Controls,
+  Vcl.Graphics,
+  Vcl.StdCtrls,
+  Vcl.Themes,
+  Vcl.Imaging.pngimage,
+  Vcl.Forms,
+  {$ELSE}
   SysUtils, Windows, Messages, Classes, Controls, Graphics, CommCtrl,
-  Themes, UxTheme, DwmApi, PNGImage, NTS.Code.Common.Types, UI.Aero.Core.BaseControl,
-  StdCtrls, Forms, GDIPUTIL, GDIPOBJ, GDIPAPI, UI.Aero.Core.CustomControl,
+  Themes, UxTheme, DwmApi, PNGImage, StdCtrls, GDIPUTIL, GDIPOBJ,
+  GDIPAPI, Forms,
+  {$ENDIF}
+  NTS.Code.Common.Types,
+  UI.Aero.Core.BaseControl,
+  UI.Aero.Core.CustomControl,
   UI.Aero.Globals;
 
 type

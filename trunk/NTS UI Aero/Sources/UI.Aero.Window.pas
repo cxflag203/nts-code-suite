@@ -11,10 +11,28 @@ unit UI.Aero.Window;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
-  Classes, SysUtils, Windows, Messages, Forms, Themes,
-  NTS.Code.Common.Types, Controls, UxTheme, DwmApi, Graphics,
-  UI.Aero.Globals, UI.Aero.Core, GIFImg;
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.UxTheme,
+  Winapi.DwmApi,
+  Vcl.Controls,
+  Vcl.Graphics,
+  Vcl.Themes,
+  Vcl.Imaging.GIFImg,
+  Vcl.Forms,
+  {$ELSE}
+  SysUtils, Classes, Windows, Messages, UxTheme, DwmApi,
+  Themes, Controls, Graphics, GIFImg, Forms,
+  {$ENDIF}
+  NTS.Code.Common.Types,
+  UI.Aero.Globals,
+  UI.Aero.Core;
 
 type
   TBaseAeroWindow = Class(AeroCore)
@@ -144,7 +162,7 @@ end;
 
 procedure TBaseAeroWindow.LoadAeroTheme;
 begin
-  if RunWindowsVista and ThemeServices.ThemesEnabled then
+  if RunWindowsVista and {$IFDEF HAS_VCLSTYLES}StyleServices.Enabled{$ELSE}ThemeServices.ThemesEnabled{$ENDIF} then
     ThemeData:= OpenThemeData(0,'AeroWizard')
   else
     ThemeData:= 0;
@@ -288,7 +306,7 @@ procedure TBaseAeroWindow.AEROWindowPaint(Sender: TObject);
 var
   LClientRect: TRect;
 begin
-  if RunWindowsVista and not Composition and ThemeServices.ThemesEnabled then
+  if RunWindowsVista and not Composition and {$IFDEF HAS_VCLSTYLES}StyleServices.Enabled{$ELSE}ThemeServices.ThemesEnabled{$ENDIF} then
   begin
     LClientRect:= Window.ClientRect;
     LClientRect.Bottom:= LClientRect.Bottom+1;
@@ -316,7 +334,7 @@ begin
     WM_THEMECHANGED,
     WM_DWMCOMPOSITIONCHANGED: CurrentThemeChanged;
     WM_ACTIVATE:
-      if RunWindowsVista and not Composition and ThemeServices.ThemesEnabled then
+      if RunWindowsVista and not Composition and {$IFDEF HAS_VCLSTYLES}StyleServices.Enabled{$ELSE}ThemeServices.ThemesEnabled{$ENDIF}then
       begin
         case Message.wParam of
           WA_ACTIVE, WA_CLICKACTIVE: StateID:= 1;
@@ -325,7 +343,7 @@ begin
         Window.Invalidate;
       end;
     WM_WINDOWPOSCHANGED:
-      if RunWindowsVista and not Composition and ThemeServices.ThemesEnabled then
+      if RunWindowsVista and not Composition and {$IFDEF HAS_VCLSTYLES}StyleServices.Enabled{$ELSE}ThemeServices.ThemesEnabled{$ENDIF} then
       begin
         if (OldWidth <> Window.ClientWidth) or (OldHeight <> Window.ClientHeight) then
         begin
