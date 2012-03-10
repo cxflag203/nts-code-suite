@@ -11,10 +11,31 @@ unit UI.Aero.PageManager;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
-  SysUtils, Windows, Messages, Classes, Controls, Graphics, UxTheme,
-  UI.Aero.Core.CustomControl, GDIPOBJ, UI.Aero.Core.Images, UI.Aero.Core.BaseControl,
-  NTS.Code.Helpers, Menus, UI.Aero.Globals, UI.Aero.Core;
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.GDIPOBJ,
+  Winapi.UxTheme,
+
+  Vcl.Controls,
+  Vcl.Graphics,
+  Vcl.Menus,
+  {$ELSE}
+  SysUtils, Windows, Messages, Classes, Controls, Graphics, UxTheme, GDIPOBJ,
+  Menus,
+  {$ENDIF}
+  NTS.Code.Helpers,
+  UI.Aero.Core.CustomControl,
+  UI.Aero.Core.Images,
+  UI.Aero.Core.BaseControl,
+  UI.Aero.Globals,
+  UI.Aero.Core;
 
 type
   TAeroPageManager = Class;

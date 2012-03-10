@@ -11,10 +11,29 @@ unit UI.Aero.Core.CustomControl.Animation;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
-  SysUtils, Windows, Messages, Classes, Controls, Graphics,
-  Themes, UxTheme, DwmApi, UI.Aero.Core.BaseControl,
-  GDIPUTIL, GDIPOBJ, GDIPAPI, UI.Aero.Globals;
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.UxTheme,
+  Winapi.DwmApi,
+  Winapi.GDIPAPI,
+  Winapi.GDIPOBJ,
+  Winapi.GDIPUTIL,
+  Vcl.Controls,
+  Vcl.Graphics,
+  Vcl.Themes,
+  {$ELSE}
+  SysUtils, Classes, Windows, Messages, GDIPUTIL, GDIPOBJ, GDIPAPI, UxTheme,
+  DwmApi, Controls, Graphics, Themes,
+  {$ENDIF}
+  UI.Aero.Core.BaseControl,
+  UI.Aero.Globals;
+
 type
   TCustomAeroControlWithAnimation = class(TAeroBaseControl)
   private
@@ -106,7 +125,7 @@ begin
   PaintDC:= ACanvas.Handle;
   RConfig:= [];
 //
-  if ThemeServices.ThemesEnabled then
+  if {$IFDEF HAS_VCLSTYLES}StyleServices.Enabled{$ELSE}ThemeServices.ThemesEnabled{$ENDIF} then
   begin
     if not BufferedPaintRenderAnimation(Handle,PaintDC) then
     begin
@@ -153,7 +172,7 @@ var
   GPSurface: TGPGraphics;
 begin
   GPSurface:= nil;
-  if ThemeServices.ThemesEnabled then
+  if {$IFDEF HAS_VCLSTYLES}StyleServices.Enabled{$ELSE}ThemeServices.ThemesEnabled{$ENDIF} then
   begin
     CurrentAniState:= NewAniState;
     RConfig:= GetRenderState;

@@ -11,12 +11,33 @@ unit UI.Aero.Composition;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.UxTheme,
+  Winapi.GDIPOBJ,
+
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.StdCtrls,
+  {$ELSE}
   SysUtils, Windows, Messages, Classes, Controls, Types,
-  UI.Aero.Core.CustomControl, UxTheme, Graphics, NTS.Code.Common.Types,
-  GDIPOBJ, UI.Aero.Image, StdCtrls, UI.Aero.Window,
-  UI.Aero.Core.BaseControl, UI.Aero.Core.CustomControl.Animation,
-  UI.Aero.Globals, UI.Aero.Core;
+  UxTheme, Graphics, GDIPOBJ, StdCtrls,
+  {$ENDIF}
+  NTS.Code.Common.Types,
+  UI.Aero.Core.CustomControl,
+  UI.Aero.Image,
+  UI.Aero.Window,
+  UI.Aero.Core.BaseControl,
+  UI.Aero.Core.CustomControl.Animation,
+  UI.Aero.Globals,
+  UI.Aero.Core;
 
 type
   TThemeCollectionItem   = Class;

@@ -11,11 +11,36 @@ unit UI.Aero.Button.Task;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.UxTheme,
+  Winapi.DwmApi,
+  Winapi.GDIPAPI,
+  Winapi.GDIPOBJ,
+  Winapi.GDIPUTIL,
+  Winapi.CommCtrl,
+  Vcl.Controls,
+  Vcl.Graphics,
+  Vcl.Themes,
+  Vcl.Imaging.pngimage,
+  Vcl.StdCtrls,
+  {$ELSE}
   SysUtils, Windows, Messages, Classes, Controls, Graphics, CommCtrl,
-  Themes, UxTheme, DwmApi, PNGImage, NTS.Code.Common.Types, UI.Aero.Core.BaseControl,
-  StdCtrls, Forms, GDIPUTIL, GDIPOBJ, GDIPAPI, UI.Aero.Core.CustomControl.Animation,
-  UI.Aero.Button.Custom, UI.Aero.Globals, UI.Aero.Core, UI.Aero.Core.Images;
+  Themes, UxTheme, DwmApi, PNGImage, StdCtrls, GDIPUTIL, GDIPOBJ, GDIPAPI,
+  {$ENDIF}
+  NTS.Code.Common.Types,
+  UI.Aero.Core.BaseControl,
+  UI.Aero.Core.CustomControl.Animation,
+  UI.Aero.Button.Custom,
+  UI.Aero.Globals,
+  UI.Aero.Core,
+  UI.Aero.Core.Images;
 
 type
   TAeroTaskButton = class(TAeroCustomImageButton)

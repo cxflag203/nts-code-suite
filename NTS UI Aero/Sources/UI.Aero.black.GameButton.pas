@@ -11,8 +11,17 @@ unit UI.Aero.black.GameButton;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
+  {$IFDEF HAS_UNITSCOPE}
+  System.Classes,
+  Winapi.Windows,
+  Winapi.UxTheme,
+  Vcl.Graphics,
+  {$ELSE}
   Windows, Classes, Graphics, UxTheme,
+  {$ENDIF}
   UI.Aero.Button.Custom,
   UI.Aero.Button.Theme,
   UI.Aero.Button;

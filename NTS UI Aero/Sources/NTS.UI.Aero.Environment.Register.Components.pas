@@ -11,8 +11,16 @@ unit NTS.UI.Aero.Environment.Register.Components;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
-  Classes, DesignIntf, TypInfo,
+  {$IFDEF HAS_UNITSCOPE}
+  System.Classes,
+  System.TypInfo,
+  {$ELSE}
+  Classes, TypInfo,
+  {$ENDIF}
+  DesignIntf,
   UI.Aero.Window,
   UI.Aero.SearchBox,
   UI.Aero.Button,

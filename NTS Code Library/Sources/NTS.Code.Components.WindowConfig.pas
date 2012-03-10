@@ -15,8 +15,8 @@ interface
 
 uses
   {$IFDEF HAS_UNITSCOPE}
-  System.Classes, System.SysUtils, Winapi.Windows, Winapi.Messages, Vcl.Forms,
-  Winapi.UxTheme, Winapi.DwmApi,
+  System.Classes, System.SysUtils, Winapi.Windows, Winapi.Messages,
+  Winapi.UxTheme, Winapi.DwmApi, Vcl.Forms,
   {$ELSE}
   Classes, SysUtils, Windows, Messages, Forms, UxTheme, DwmApi,
   {$ENDIF}

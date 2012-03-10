@@ -9,11 +9,28 @@
 
 unit UI.Aero.ThemeElement;
 
-interface 
+interface
+
+{$I '../../Common/CompilerVersion.Inc'}
 
 uses
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.UxTheme,
+  Winapi.GDIPOBJ,
+
+  Vcl.Graphics,
+  Vcl.Controls,
+  {$ELSE}
   Windows, Messages, SysUtils, Classes, Controls, Graphics, GDIPOBJ,
-  UI.Aero.Core.CustomControl, Themes, UxTheme, UI.Aero.Globals;
+  Themes, UxTheme,
+  {$ENDIF}
+  UI.Aero.Core.CustomControl,
+  UI.Aero.Globals;
 
 type
   TAeroThemeElement = Class;

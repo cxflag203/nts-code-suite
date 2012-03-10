@@ -11,9 +11,24 @@ unit UI.Aero.Button.Expando;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
-  UI.Aero.Globals, UI.Aero.Core, UI.Aero.Button.Custom, Classes,
-  Controls, SysUtils, Windows, Graphics, GDIPOBJ, UxTheme, Buttons,
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+  Winapi.Windows,
+  Winapi.GDIPOBJ,
+  Winapi.UxTheme,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Buttons,
+  {$ELSE}
+  Classes, Controls, SysUtils, Windows, Graphics, GDIPOBJ, UxTheme, Buttons,
+  {$ENDIF}
+  UI.Aero.Globals,
+  UI.Aero.Core,
+  UI.Aero.Button.Custom,
   UI.Aero.Core.Images;
 
 type

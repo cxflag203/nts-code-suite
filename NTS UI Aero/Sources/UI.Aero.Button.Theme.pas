@@ -11,9 +11,24 @@ unit UI.Aero.Button.Theme;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
-  UI.Aero.Globals, UI.Aero.Core, UI.Aero.Button.Custom, Classes,
-  SysUtils, Windows, Graphics, GDIPOBJ, UxTheme, Buttons,
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.UxTheme,
+  Winapi.GDIPOBJ,
+  Vcl.Graphics,
+  Vcl.Buttons,
+  {$ELSE}
+  SysUtils, Classes, Windows, Graphics, GDIPOBJ, UxTheme, Buttons,
+  {$ENDIF}
+  UI.Aero.Globals,
+  UI.Aero.Core,
+  UI.Aero.Button.Custom,
   UI.Aero.Core.Images;
 
 type

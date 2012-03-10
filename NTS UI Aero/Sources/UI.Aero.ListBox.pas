@@ -11,11 +11,31 @@ unit UI.Aero.ListBox;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.UxTheme,
+  Winapi.GDIPOBJ,
+
+  Vcl.Graphics,
+  Vcl.Controls,
+  {$ELSE}
   SysUtils, Windows, Messages, Classes, Controls, Graphics, CommCtrl,
-  Themes, UxTheme, DwmApi, PNGImage, NTS.Code.Common.Types, UI.Aero.Core.BaseControl,
-  StdCtrls, Forms, GDIPUTIL, GDIPOBJ, GDIPAPI, UI.Aero.Core.Images,
-  UI.Aero.Core.CustomControl.Animation, UI.Aero.Globals, UI.Aero.Core;
+  Themes, UxTheme, DwmApi, PNGImage, StdCtrls, GDIPUTIL, GDIPOBJ,
+  GDIPAPI,
+  {$ENDIF}
+  NTS.Code.Common.Types,
+  UI.Aero.Core.BaseControl,
+  UI.Aero.Core.Images,
+  UI.Aero.Core.CustomControl.Animation,
+  UI.Aero.Globals,
+  UI.Aero.Core;
 
 
 type

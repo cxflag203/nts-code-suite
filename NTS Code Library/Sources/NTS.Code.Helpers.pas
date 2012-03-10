@@ -15,7 +15,7 @@ interface
 
 Uses
   {$IFDEF HAS_UNITSCOPE}
-  System.SysUtils, Winapi.Windows, System.Classes, System.Math;
+  System.SysUtils, System.Classes, System.Math, Winapi.Windows;
   {$ELSE}
   SysUtils, Windows, Classes, Math;
   {$ENDIF}

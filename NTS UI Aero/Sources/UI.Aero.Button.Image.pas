@@ -11,11 +11,36 @@ unit UI.Aero.Button.Image;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+  System.Types,
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.CommCtrl,
+  Winapi.UxTheme,
+  Winapi.DwmApi,
+  Winapi.GDIPAPI,
+  Winapi.GDIPOBJ,
+  Winapi.GDIPUTIL,
+  Vcl.Controls,
+  Vcl.Graphics,
+  Vcl.Themes,
+  Vcl.Imaging.pngimage,
+  Vcl.StdCtrls,
+  {$ELSE}
   SysUtils, Windows, Messages, Classes, Controls, Graphics, CommCtrl, Types,
-  Themes, UxTheme, DwmApi, PNGImage, NTS.Code.Common.Types, UI.Aero.Core.BaseControl,
-  StdCtrls, Forms, GDIPUTIL, GDIPOBJ, GDIPAPI, UI.Aero.Core.CustomControl.Animation,
-  UI.Aero.Button.Custom, UI.Aero.Core.Images, UI.Aero.Globals;
+  Themes, UxTheme, DwmApi, PNGImage, StdCtrls, GDIPUTIL, GDIPOBJ, GDIPAPI,
+  {$ENDIF}
+  NTS.Code.Common.Types,
+  UI.Aero.Core.BaseControl,
+  UI.Aero.Core.CustomControl.Animation,
+  UI.Aero.Button.Custom,
+  UI.Aero.Core.Images,
+  UI.Aero.Globals;
 
 type
   TAeroImageButton = Class(TAeroCustomImageButton)
@@ -35,7 +60,7 @@ implementation
 
 function TAeroImageButton.GetRenderState: TARenderConfig;
 begin
- Result:= [];
+  Result:= [];
 end;
 
 procedure TAeroImageButton.PostRender(const Surface: TCanvas; const RConfig: TARenderConfig; const DrawState: Integer);
@@ -45,17 +70,17 @@ end;
 
 function TAeroImageButton.CanAutoSize(var NewWidth, NewHeight: Integer): Boolean;
 begin
- Result:= True;
- if Image.DataLoaded then
+  Result:= True;
+  if Image.DataLoaded then
   begin
-   NewWidth:= Image.PartWidth;
-   NewHeight:= Image.PartHeight;
+    NewWidth:= Image.PartWidth;
+    NewHeight:= Image.PartHeight;
   end;
 end;
 
 procedure TAeroImageButton.ClassicRender(const ACanvas: TCanvas; const DrawState: Integer);
 begin
- if Image.DataLoaded then
+  if Image.DataLoaded then
   case TAeroButtonState(DrawState) of
     bsNormal    : AeroPicture.DrawPart(ACanvas.Handle,Image.Data.Canvas.Handle,Point(0,0),Image.PartSize,Image.PartNormal,Image.Orientation);
     bsHightLight: AeroPicture.DrawPart(ACanvas.Handle,Image.Data.Canvas.Handle,Point(0,0),Image.PartSize,Image.PartHightLight,Image.Orientation);
@@ -67,7 +92,7 @@ end;
 
 procedure TAeroImageButton.RenderState(const PaintDC: hDC; var Surface: TGPGraphics; var RConfig: TARenderConfig; const DrawState: Integer);
 begin
- if Image.DataLoaded then
+  if Image.DataLoaded then
   case TAeroButtonState(DrawState) of
     bsNormal    : AeroPicture.DrawPart(PaintDC,Image.Data.Canvas.Handle,Point(0,0),Image.PartSize,Image.PartNormal,Image.Orientation);
     bsHightLight: AeroPicture.DrawPart(PaintDC,Image.Data.Canvas.Handle,Point(0,0),Image.PartSize,Image.PartHightLight,Image.Orientation);

@@ -11,8 +11,18 @@ unit UI.Aero.Core;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
-  SysUtils, Windows, UxTheme, Graphics, Classes;
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+  Winapi.Windows,
+  Winapi.UxTheme,
+  Vcl.Graphics;
+  {$ELSE}
+  SysUtils, Classes, Windows, UxTheme, Graphics;
+  {$ENDIF}
 
 type
   TDrawProcedure = procedure(ADC: hDC; ATheme: hTheme; APartID, AStateID: Integer; AFont: TFont; AFormat: DWORD; ARect: TRect; AText: String; AGlow: BooLean) of object;

@@ -11,11 +11,34 @@ unit UI.Aero.Button.Custom;
 
 interface
 
+{$I '../../Common/CompilerVersion.Inc'}
+
 uses
+  {$IFDEF HAS_UNITSCOPE}
+  System.SysUtils,
+  System.Classes,
+  Winapi.Windows,
+  Winapi.Messages,
+  Winapi.GDIPUTIL,
+  Winapi.GDIPOBJ,
+  Winapi.GDIPAPI,
+  Winapi.CommCtrl,
+  Winapi.UxTheme,
+  Winapi.DwmApi,
+  Vcl.Controls,
+  Vcl.Graphics,
+  Vcl.Themes,
+  Vcl.Imaging.pngimage,
+  Vcl.StdCtrls,
+  {$ELSE}
   SysUtils, Windows, Messages, Classes, Controls, Graphics, CommCtrl,
-  Themes, UxTheme, DwmApi, PNGImage, NTS.Code.Common.Types, UI.Aero.Core.BaseControl,
-  StdCtrls, Forms, GDIPUTIL, GDIPOBJ, GDIPAPI, UI.Aero.Core.CustomControl.Animation,
-  UI.Aero.Core.Images, UI.Aero.Globals;
+  Themes, UxTheme, DwmApi, PNGImage, StdCtrls, GDIPUTIL, GDIPOBJ, GDIPAPI,
+  {$ENDIF}
+  NTS.Code.Common.Types,
+  UI.Aero.Core.BaseControl,
+  UI.Aero.Core.CustomControl.Animation,
+  UI.Aero.Core.Images,
+  UI.Aero.Globals;
 
 type
   TAeroCustomButton = class(TCustomAeroControlWithAnimation)

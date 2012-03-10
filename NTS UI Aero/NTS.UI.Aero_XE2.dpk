@@ -7,9 +7,10 @@
 {                                                       }
 {*******************************************************}
 
-package NTS.UI.Aero;
+package NTS.UI.Aero_XE2;
 
 {$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
@@ -20,25 +21,27 @@ package NTS.UI.Aero;
 {$LOCALSYMBOLS ON}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION ON}
+{$OPTIMIZATION OFF}
 {$OVERFLOWCHECKS OFF}
 {$RANGECHECKS OFF}
 {$REFERENCEINFO ON}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES OFF}
+{$STACKFRAMES ON}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DESCRIPTION 'UI Aero Library (New Technology Studio) for XE'}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'UI Aero Library (New Technology Studio)'}
 {$IMPLICITBUILD ON}
 
 requires
   rtl,
   vclimg,
   vcl,
-  NTS.CodeLibrary;
+  NTS.CodeLibrary_XE2;
 
 contains
   UI.Aero.Core in 'Sources\UI.Aero.Core.pas',
