@@ -15,7 +15,9 @@ interface
 
 uses
   {$IFDEF HAS_UNITSCOPE}
-  Winapi.GDIPUTIL, Winapi.GDIPOBJ, Winapi.GDIPAPI;
+  Winapi.GDIPUTIL,
+  Winapi.GDIPOBJ,
+  Winapi.GDIPAPI;
   {$ELSE}
   GDIPUTIL, GDIPOBJ, GDIPAPI;
   {$ENDIF}

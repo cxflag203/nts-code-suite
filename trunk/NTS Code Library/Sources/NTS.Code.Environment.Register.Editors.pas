@@ -31,7 +31,8 @@ implementation
 Procedure Register;
 begin
   RegisterPropertyEditor(TypeInfo(TFileName), nil, '', TFileNameEditor);
-  RegisterPropertyEditor(TypeInfo(TImageFileName), nil,'',TImageFileNameEditor);
+  RegisterPropertyEditor(TypeInfo(TImageFileName), nil, '', TImageFileNameEditor);
+  RegisterPropertyEditor(TypeInfo(TGPColorValue), nil, '', TGPColorEditor);
 end;
 
 end.

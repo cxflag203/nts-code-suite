@@ -15,7 +15,8 @@ interface
 
 uses
   {$IFDEF HAS_UNITSCOPE}
-  System.Classes, System.SysUtils;
+  System.Classes,
+  System.SysUtils;
   {$ELSE}
   Classes, SysUtils;
   {$ENDIF}

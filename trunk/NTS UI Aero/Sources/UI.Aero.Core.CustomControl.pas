@@ -55,16 +55,16 @@ implementation
 
 { TCustomAeroControl }
 
-Constructor TCustomAeroControl.Create(AOwner: TComponent);
+constructor TCustomAeroControl.Create(AOwner: TComponent);
 begin
-  Inherited Create(AOwner);
+  inherited Create(AOwner);
 
 end;
 
-Destructor TCustomAeroControl.Destroy;
+destructor TCustomAeroControl.Destroy;
 begin
 
-  Inherited Destroy;
+  inherited Destroy;
 end;
 
 function TCustomAeroControl.CreateRenderBuffer(const DrawDC: hDC; var PaintDC: hDC): hPaintBuffer;
@@ -88,7 +88,7 @@ begin
   CreateClassicBuffer;
   DrawClassicBG;
   ClassicRender(ClassicBuffer.Canvas);
-  ACanvas.Draw(0,0,ClassicBuffer);
+  ACanvas.Draw(0, 0, ClassicBuffer);
 end;
 
 procedure TCustomAeroControl.RenderProcedure_Vista(const ACanvas: TCanvas);
@@ -113,7 +113,7 @@ begin
       RenderBuffer:= CreateRenderBuffer(ACanvas.Handle,PaintDC);
     if (rsGDIP in RConfig) then
       GPSurface:= TGPGraphics.Create(PaintDC);
-    ThemedRender(PaintDC,GPSurface,RConfig);
+    ThemedRender(PaintDC, GPSurface, RConfig);
     if Assigned(GPSurface) then
       GPSurface.Free;
     if (rsBuffer in RConfig) and (RenderBuffer <> 0) then
