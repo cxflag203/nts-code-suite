@@ -39,7 +39,8 @@ package NTS.CodeLibrary_XE2;
 requires
   rtl,
   vcl,
-  designide;
+  designide,
+  VclSmp;
 
 contains
   NTS.Code.Graphics.Gradient in 'Sources\NTS.Code.Graphics.Gradient.pas',

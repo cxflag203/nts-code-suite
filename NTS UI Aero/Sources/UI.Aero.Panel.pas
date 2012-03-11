@@ -87,36 +87,36 @@ implementation
 
 { TAeroPanel }
 
-Constructor TAeroPanel.Create(AOwner: TComponent);
+constructor TAeroPanel.Create(AOwner: TComponent);
 begin
- Inherited Create(AOwner);
- ControlStyle:= ControlStyle+[csAcceptsControls];
- fBorder:= [];
+  inherited Create(AOwner);
+  ControlStyle:= ControlStyle+[csAcceptsControls];
+  fBorder:= [];
 //
- fAlphaColor:= aclNavy;
- fAlphaGradientColor:= aclWhite;
- fAlphaBorderColor:= aclBlack;
+  fAlphaColor:= aclNavy;
+  fAlphaGradientColor:= aclWhite;
+  fAlphaBorderColor:= aclBlack;
 //
- Color:= RGB(GetRed(fAlphaColor),GetGreen(fAlphaColor),GetBlue(fAlphaColor));
- fGradientColor:= RGB(GetRed(fAlphaGradientColor),GetGreen(fAlphaGradientColor),GetBlue(fAlphaGradientColor));
- fBorderColor:= RGB(GetRed(fAlphaBorderColor),GetGreen(fAlphaBorderColor),GetBlue(fAlphaBorderColor));
+  Color:= RGB(GetRed(fAlphaColor),GetGreen(fAlphaColor),GetBlue(fAlphaColor));
+  fGradientColor:= RGB(GetRed(fAlphaGradientColor),GetGreen(fAlphaGradientColor),GetBlue(fAlphaGradientColor));
+  fBorderColor:= RGB(GetRed(fAlphaBorderColor),GetGreen(fAlphaBorderColor),GetBlue(fAlphaBorderColor));
 //
- fBackGround:= bgSolid;
- fGradientType:= LinearGradientModeHorizontal;
+  fBackGround:= bgSolid;
+  fGradientType:= LinearGradientModeHorizontal;
 //
- fWrapMode:= WrapModeTile;
- fTexture:= '';
+  fWrapMode:= WrapModeTile;
+  fTexture:= '';
 end;
 
-Destructor TAeroPanel.Destroy;
+destructor TAeroPanel.Destroy;
 begin
 
- Inherited Destroy;
+  inherited Destroy;
 end;
 
 function TAeroPanel.GetRenderState: TRenderConfig;
 begin
- Result:= [rsBuffer,rsGDIP];
+  Result:= [rsBuffer, rsGDIP];
 end;
 
 procedure TAeroPanel.PostRender(const Surface: TCanvas; const RConfig: TRenderConfig);
@@ -126,91 +126,91 @@ end;
 
 procedure TAeroPanel.SetAlphaBorderColor(const Value: TGPColorValue);
 begin
- if fAlphaBorderColor <> Value then
+  if fAlphaBorderColor <> Value then
   begin
-   fAlphaBorderColor:= Value;
-   fBorderColor:= RGB(GetRed(Value),GetGreen(Value),GetBlue(Value));
-   Invalidate;
+    fAlphaBorderColor:= Value;
+    fBorderColor:= RGB(GetRed(Value),GetGreen(Value),GetBlue(Value));
+    Invalidate;
   end;
 end;
 
 procedure TAeroPanel.SetAlphaColor(const Value: TGPColorValue);
 begin
- if fAlphaColor <> Value then
+  if fAlphaColor <> Value then
   begin
-   fAlphaColor:= Value;
-   Color:= RGB(GetRed(Value),GetGreen(Value),GetBlue(Value));
+    fAlphaColor:= Value;
+    Color:= RGB(GetRed(Value),GetGreen(Value),GetBlue(Value));
   end;
 end;
 
 procedure TAeroPanel.SetAlphaGradientColor(const Value: TGPColorValue);
 begin
- if fAlphaGradientColor <> Value then
+  if fAlphaGradientColor <> Value then
   begin
-   fAlphaGradientColor:= Value;
-   fGradientColor:= RGB(GetRed(Value),GetGreen(Value),GetBlue(Value));
-   Invalidate; 
+    fAlphaGradientColor:= Value;
+    fGradientColor:= RGB(GetRed(Value),GetGreen(Value),GetBlue(Value));
+    Invalidate;
   end;
 end;
 
 procedure TAeroPanel.SetBackGround(const Value: TAeroBackGround);
 begin
- if fBackGround <> Value then
+  if fBackGround <> Value then
   begin
-   fBackGround:= Value;
-   Invalidate;
+    fBackGround:= Value;
+    Invalidate;
   end;
 end;
 
 procedure TAeroPanel.SetBorder(const Value: TBevelEdges);
 begin
- if fBorder <> Value then
+  if fBorder <> Value then
   begin
-   fBorder:= Value;
-   Invalidate;
+    fBorder:= Value;
+    Invalidate;
   end;
 end;
 
 procedure TAeroPanel.SetGradientType(const Value: LinearGradientMode);
 begin
- if fGradientType <> Value then
+  if fGradientType <> Value then
   begin
-   fGradientType:= Value;
-   Invalidate;
+    fGradientType:= Value;
+    Invalidate;
   end;
 end;
 
 procedure TAeroPanel.SetTexture(const Value: TImageFileName);
 begin
- if fTexture <> Value then
+  if fTexture <> Value then
   begin
-   fTexture:= Value;
-   Invalidate;
+    fTexture:= Value;
+    Invalidate;
   end;
 end;
 
 procedure TAeroPanel.SetWrapMode(const Value: TWrapMode);
 begin
- if fWrapMode <> Value then
+  if fWrapMode <> Value then
   begin
-   fWrapMode:= Value;
-   Invalidate;
+    fWrapMode:= Value;
+    Invalidate;
   end;
 end;
 
 procedure TAeroPanel.ClassicRender(const ACanvas: TCanvas);
 begin
- // {$Message HINT 'Доделать и исправить наконец эту долбаную панель!'}
+  // {$Message HINT 'Доделать и исправить наконец эту долбаную панель!'}
 end;
 
 function TAeroPanel.CreateGPBrush(const AGPRect: TGPRect;var Image: TGPImage): TGPBrush;
 begin
- Result:= nil;
- case fBackGround of
-   bgSolid   : Result:= TGPSolidBrush.Create(fAlphaColor);
-   bgGradient: Result:= TGPLinearGradientBrush.Create(AGPRect,fAlphaColor,fAlphaGradientColor,fGradientType);
-   bgTexture : Result:= TGPTextureBrush.Create(Image,fWrapMode,0,0,Image.GetWidth,Image.GetHeight);
- end; 
+  Result:= nil;
+  case fBackGround of
+    bgSolid   : Result:= TGPSolidBrush.Create(fAlphaColor);
+    bgGradient: Result:= TGPLinearGradientBrush.Create(AGPRect,fAlphaColor,fAlphaGradientColor,fGradientType);
+    bgTexture : Result:= TGPTextureBrush.Create(Image,fWrapMode,0,0,Image.GetWidth,Image.GetHeight);
+  end;
 end;
 
 function TAeroPanel.CreateGPImage: TGPImage;
@@ -225,73 +225,73 @@ end;
 
 function TAeroPanel.CreateGPRect: TGPRect;
 begin
- Result:= MakeRect(0,0,ClientWidth,ClientHeight);
- if beLeft in fBorder then Result.X:= 0;
- if beTop in fBorder then Result.Y:= 0;
+  Result:= MakeRect(0, 0, ClientWidth, ClientHeight);
+  if beLeft in fBorder then Result.X:= 0;
+  if beTop in fBorder then Result.Y:= 0;
 
- if beRight in fBorder then
+  if beRight in fBorder then
   begin
-   if beLeft in fBorder then
-    Result.Width:= Result.Width-1
-   else
-    Result.Width:= Result.Width-1;
+    if beLeft in fBorder then
+      Result.Width:= Result.Width-1
+    else
+      Result.Width:= Result.Width-1;
   end;
- if beBottom in fBorder then
+  if beBottom in fBorder then
   begin
-   if beTop in fBorder then
-    Result.Height:= Result.Height-1
-   else
-    Result.Height:= Result.Height-1;
+    if beTop in fBorder then
+      Result.Height:= Result.Height-1
+    else
+      Result.Height:= Result.Height-1;
   end;
 end;
 
 procedure TAeroPanel.DarwBorder(Surface: TGPGraphics);
 var
- ARect: TGPRect;
- GPen: TGPPen;
+  ARect: TGPRect;
+  GPen: TGPPen;
 begin
- GPen:= TGPPen.Create(fAlphaBorderColor);
- ARect:= MakeRect(-1,-1,ClientWidth+1,ClientHeight+1);
- if beLeft in fBorder then
-  ARect.X:= 0;
- if beTop in fBorder then
-  ARect.Y:= 0;
- if beRight in fBorder then
+  GPen:= TGPPen.Create(fAlphaBorderColor);
+  ARect:= MakeRect(-1,-1,ClientWidth+1,ClientHeight+1);
+  if beLeft in fBorder then
+    ARect.X:= 0;
+  if beTop in fBorder then
+    ARect.Y:= 0;
+  if beRight in fBorder then
   begin
-   if beLeft in fBorder then
-    ARect.Width:= ClientWidth-1
-   else
-    ARect.Width:= ClientWidth;
+    if beLeft in fBorder then
+      ARect.Width:= ClientWidth-1
+    else
+      ARect.Width:= ClientWidth;
   end;
- if beBottom in fBorder then
+  if beBottom in fBorder then
   begin
-   if beTop in fBorder then
-    ARect.Height:= ClientHeight-1
-   else
-    ARect.Height:= ClientHeight;
+    if beTop in fBorder then
+      ARect.Height:= ClientHeight-1
+    else
+      ARect.Height:= ClientHeight;
   end;
- Surface.DrawRectangle(GPen,ARect);
- GPen.Free;
+  Surface.DrawRectangle(GPen,ARect);
+  GPen.Free;
 end;
 
 procedure TAeroPanel.ThemedRender(const PaintDC: hDC; const Surface: TGPGraphics; var RConfig: TRenderConfig);
 var                                                     
- ARect: TGPRect;
- Brush: TGPBrush;
- Image: TGPImage;
+  ARect: TGPRect;
+  Brush: TGPBrush;
+  Image: TGPImage;
 begin
- if (fBorder <> []) then DarwBorder(Surface);
+  if (fBorder <> []) then DarwBorder(Surface);
 //
- ARect:= CreateGPRect;
- Image:= CreateGPImage;
- Brush:= CreateGPBrush(ARect,Image);
+  ARect:= CreateGPRect;
+  Image:= CreateGPImage;
+  Brush:= CreateGPBrush(ARect,Image);
 //
- Surface.SetClip(ARect);
- Surface.FillRectangle(Brush,ARect);
- Surface.ResetClip;
+  Surface.SetClip(ARect);
+  Surface.FillRectangle(Brush,ARect);
+  Surface.ResetClip;
 //
- if Assigned(Image) then Image.Free;
- Brush.Free;
+  if Assigned(Image) then Image.Free;
+  Brush.Free;
 end;
 
 end.

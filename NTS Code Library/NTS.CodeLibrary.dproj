@@ -52,6 +52,7 @@
 			<DCCReference Include="vcl.dcp"/>
 			<DCCReference Include="designide.dcp"/>
 			<DCCReference Include="GDIPlus.dcp"/>
+			<DCCReference Include="VclSmp.dcp"/>
 			<DCCReference Include="Sources\NTS.Code.Graphics.Gradient.pas"/>
 			<DCCReference Include="Sources\NTS.Code.Components.VirtualStringList.pas"/>
 			<DCCReference Include="Sources\NTS.Code.Components.WindowConfig.pas"/>

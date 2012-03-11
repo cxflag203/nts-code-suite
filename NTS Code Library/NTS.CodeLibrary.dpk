@@ -37,7 +37,8 @@ requires
   rtl,
   vcl,
   designide,
-  GDIPlus;
+  GDIPlus,
+  VclSmp;
 
 contains
   NTS.Code.Graphics.Gradient in 'Sources\NTS.Code.Graphics.Gradient.pas',

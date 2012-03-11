@@ -239,25 +239,25 @@ end;
 
 procedure TAeroBaseControl.DrawAeroParentBackground(DrawDC: HDC; DrawRect: TRect);
 begin
- if Transparent then
-  DrawThemeParentBackground(Self.Handle,DrawDC,@DrawRect)
- else
+  if Transparent then
+    DrawThemeParentBackground(Self.Handle, DrawDC, @DrawRect)
+  else
   begin
-   Canvas.Brush.Color:= TransparentColor;
-   Canvas.Brush.Style:= bsSolid;
-   FillRect(DrawDC,DrawRect,Canvas.Brush.Handle);
+    Canvas.Brush.Color:= TransparentColor;
+    Canvas.Brush.Style:= bsSolid;
+    FillRect(DrawDC,DrawRect,Canvas.Brush.Handle);
   end;
 end;
 
 procedure TAeroBaseControl.DrawClassicBG;
 begin
- if Parent is TAeroBaseControl then
+  if Parent is TAeroBaseControl then
   begin
-   if TAeroBaseControl(Parent).ClassicBuffer <> nil then
+    if TAeroBaseControl(Parent).ClassicBuffer <> nil then
     begin
-     BitBlt(ClassicBuffer.Canvas.Handle,0,0,Self.Width,
-     Self.Height,TAeroBaseControl(Parent).ClassicBuffer.Canvas.Handle,
-     Self.Left,Self.Top,SRCCOPY);
+      BitBlt(ClassicBuffer.Canvas.Handle,0,0,Self.Width,
+      Self.Height,TAeroBaseControl(Parent).ClassicBuffer.Canvas.Handle,
+      Self.Left,Self.Top,SRCCOPY);
     end;
   end;
 end;
