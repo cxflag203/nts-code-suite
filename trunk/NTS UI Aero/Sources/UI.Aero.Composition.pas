@@ -28,7 +28,7 @@ uses
   Vcl.StdCtrls,
   {$ELSE}
   SysUtils, Windows, Messages, Classes, Controls, Types,
-  UxTheme, Graphics, GDIPOBJ, StdCtrls,
+  UxTheme, Graphics, Winapi.GDIPOBJ, StdCtrls,
   {$ENDIF}
   NTS.Code.Common.Types,
   UI.Aero.Core.CustomControl,

@@ -27,8 +27,8 @@ uses
   Vcl.Graphics,
   Vcl.Menus,
   {$ELSE}
-  SysUtils, Windows, Messages, Classes, Controls, Graphics, UxTheme, GDIPOBJ,
-  Menus,
+  SysUtils, Windows, Messages, Classes, Controls, Graphics, UxTheme,
+  Winapi.GDIPOBJ, Menus,
   {$ENDIF}
   NTS.Code.Helpers,
   UI.Aero.Core.CustomControl,

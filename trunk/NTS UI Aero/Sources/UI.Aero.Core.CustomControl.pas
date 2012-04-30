@@ -28,8 +28,8 @@ uses
   Vcl.Graphics,
   Vcl.Themes,
   {$ELSE}
-  SysUtils, Classes, Windows, Messages, GDIPUTIL, GDIPOBJ, GDIPAPI, UxTheme,
-  DwmApi, Controls, Graphics, Themes,
+  SysUtils, Classes, Windows, Messages, Winapi.GDIPAPI, Winapi.GDIPOBJ,
+  Winapi.GDIPUTIL, UxTheme, DwmApi, Controls, Graphics, Themes,
   {$ENDIF}
   UI.Aero.Core.BaseControl,
   UI.Aero.Globals;

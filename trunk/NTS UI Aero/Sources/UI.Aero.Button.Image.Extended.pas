@@ -23,7 +23,7 @@ uses
   Vcl.Buttons,
   Vcl.Themes,
   {$ELSE}
-  Windows, Classes, Graphics, GDIPOBJ, Buttons, UxTheme, Themes,
+  Windows, Classes, Graphics, Winapi.GDIPOBJ, Buttons, UxTheme, Themes,
   {$ENDIF}
   UI.Aero.Core.CustomControl.Animation,
   UI.Aero.Button.Custom,

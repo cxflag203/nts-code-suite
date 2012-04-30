@@ -51,7 +51,6 @@
 			<DCCReference Include="rtl.dcp"/>
 			<DCCReference Include="vcl.dcp"/>
 			<DCCReference Include="designide.dcp"/>
-			<DCCReference Include="GDIPlus.dcp"/>
 			<DCCReference Include="VclSmp.dcp"/>
 			<DCCReference Include="Sources\NTS.Code.Graphics.Gradient.pas"/>
 			<DCCReference Include="Sources\NTS.Code.Components.VirtualStringList.pas"/>
@@ -61,6 +60,9 @@
 			<DCCReference Include="Sources\NTS.Code.Environment.Register.Components.pas"/>
 			<DCCReference Include="Sources\NTS.Code.Environment.Register.Editors.pas"/>
 			<DCCReference Include="Sources\NTS.Code.Environment.PropertyEditors.pas"/>
+			<DCCReference Include="GDIPlus\Winapi.GDIPAPI.pas"/>
+			<DCCReference Include="GDIPlus\Winapi.GDIPOBJ.pas"/>
+			<DCCReference Include="GDIPlus\Winapi.GDIPUTIL.pas"/>
 			<None Include="..\Common\CompilerVersion.Inc"/>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>

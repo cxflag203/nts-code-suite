@@ -14,13 +14,9 @@ interface
 {$I '../../Common/CompilerVersion.Inc'}
 
 uses
-  {$IFDEF HAS_UNITSCOPE}
   Winapi.GDIPUTIL,
   Winapi.GDIPOBJ,
   Winapi.GDIPAPI;
-  {$ELSE}
-  GDIPUTIL, GDIPOBJ, GDIPAPI;
-  {$ENDIF}
 
 type
   TFileName = Type String;

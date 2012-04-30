@@ -32,7 +32,8 @@ uses
   Vcl.StdCtrls,
   {$ELSE}
   SysUtils, Windows, Messages, Classes, Controls, Graphics, CommCtrl,
-  Themes, UxTheme, DwmApi, PNGImage, StdCtrls, GDIPUTIL, GDIPOBJ, GDIPAPI,
+  Themes, UxTheme, DwmApi, PNGImage, StdCtrls, Winapi.GDIPAPI, Winapi.GDIPOBJ,
+  Winapi.GDIPUTIL,
   {$ENDIF}
   NTS.Code.Common.Types,
   UI.Aero.Core.BaseControl,
