@@ -19,13 +19,13 @@
       {                                                                  }
       { *****************************************************************}
 
-unit GDIPUTIL;
+unit Winapi.GDIPUTIL;
 
 interface
 uses
   Windows,
-  GDIPAPI,
-  GDIPOBJ;
+  Winapi.GDIPAPI,
+  Winapi.GDIPOBJ;
 
 function ValueTypeFromULONG(Type_: ULONG): String;
 function GetMetaDataIDString(id: ULONG): string;

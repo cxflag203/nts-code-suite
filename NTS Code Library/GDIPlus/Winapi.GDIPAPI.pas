@@ -19,7 +19,7 @@
       {                                                                  }
       { *****************************************************************}
 
-unit GDIPAPI;
+unit Winapi.GDIPAPI;
 
 {$ALIGN ON}
 {$MINENUMSIZE 4}
