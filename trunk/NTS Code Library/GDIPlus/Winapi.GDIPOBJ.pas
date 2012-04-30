@@ -19,14 +19,14 @@
       {                                                                  }
       { *****************************************************************}
 
-unit GDIPOBJ;
+unit Winapi.GDIPOBJ;
 
 interface
 uses
   Windows,
   ActiveX,
   DirectDraw,
-  GDIPAPI;
+  Winapi.GDIPAPI;
 
 (**************************************************************************\
 *
