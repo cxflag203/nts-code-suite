@@ -29,7 +29,7 @@ uses
   Vcl.ExtCtrls,
   {$ELSE}
   Windows, SysUtils, Messages, Classes, Controls, Graphics, Menus,
-  GDIPUTIL, GDIPOBJ, GDIPAPI, ExtCtrls, PNGImage,
+  Winapi.GDIPUTIL, Winapi.GDIPOBJ, Winapi.GDIPAPI, ExtCtrls, PNGImage,
   {$ENDIF}
   UI.Aero.Globals,
   UI.Aero.Core,

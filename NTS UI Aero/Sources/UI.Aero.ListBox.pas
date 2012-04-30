@@ -27,8 +27,7 @@ uses
   Vcl.Controls,
   {$ELSE}
   SysUtils, Windows, Messages, Classes, Controls, Graphics, CommCtrl,
-  Themes, UxTheme, DwmApi, PNGImage, StdCtrls, GDIPUTIL, GDIPOBJ,
-  GDIPAPI,
+  Themes, UxTheme, DwmApi, PNGImage, StdCtrls, Winapi.GDIPOBJ,
   {$ENDIF}
   NTS.Code.Common.Types,
   UI.Aero.Core.BaseControl,

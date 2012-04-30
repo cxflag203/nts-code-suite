@@ -27,8 +27,8 @@ uses
   Vcl.Imaging.pngimage,
   Vcl.Imaging.JPEG,
   {$ELSE}
-  SysUtils, Classes, Types, Windows, Messages, GDIPUTIL, GDIPOBJ, GDIPAPI,
-  Graphics, PNGImage, JPEG,
+  SysUtils, Classes, Types, Windows, Messages, Winapi.GDIPAPI, Winapi.GDIPOBJ,
+  Winapi.GDIPUTIL, Graphics, PNGImage, JPEG,
   {$ENDIF}
   NTS.Code.Helpers,
   NTS.Code.Common.Types,

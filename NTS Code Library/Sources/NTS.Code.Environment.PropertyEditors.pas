@@ -30,7 +30,7 @@ Uses
   Vcl.ExtCtrls,
   Vcl.Samples.Spin,
   {$ELSE}
-  Classes, TypInfo, Windows, GDIPAPI, GDIPOBJ, Dialogs, Controls, ExtDlgs, Forms, ComCtrls,
+  Classes, TypInfo, Windows, Winapi.GDIPAPI, Winapi.GDIPOBJ, Dialogs, Controls, ExtDlgs, Forms, ComCtrls,
   StdCtrls, ExtCtrls, Spin, Graphics,
   {$ENDIF}
   DesignIntf, DesignEditors, ColnEdit;
@@ -323,7 +323,7 @@ procedure TGPColorDialog.EditBoxChange(Sender: TObject);
 begin
   if FCanChange and (TSpinEdit(Sender).Text <> '') then
   begin
-    FValue:= {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}GDIPAPI.MakeColor(seAlpha.Value, seRed.Value, seGreen.Value,
+    FValue:= Winapi.GDIPAPI.MakeColor(seAlpha.Value, seRed.Value, seGreen.Value,
       seBlue.Value);
     pbPreview.Invalidate;
   end;
@@ -333,8 +333,8 @@ procedure TGPColorDialog.btnEditClick(Sender: TObject);
 var
   ColorValue: TColor;
 begin
-  ColorValue:= {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}Windows.RGB( {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}GDIPAPI.GetRed(FValue),
-    {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}GDIPAPI.GetGreen(FValue), {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}GDIPAPI.GetBlue(FValue) );
+  ColorValue:= {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}Windows.RGB( Winapi.GDIPAPI.GetRed(FValue),
+    Winapi.GDIPAPI.GetGreen(FValue), Winapi.GDIPAPI.GetBlue(FValue) );
   with TColorDialog.Create(Self) do
   begin
     Color:= ColorValue;
@@ -356,8 +356,8 @@ var
   ARect: TGPRect;
   Surface: TGPGraphics;
 begin
-  pbPreview.Canvas.Brush.Color:= {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}Windows.RGB( {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}GDIPAPI.GetRed(FValue),
-    {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}GDIPAPI.GetGreen(FValue), {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}GDIPAPI.GetBlue(FValue) );
+  pbPreview.Canvas.Brush.Color:= {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}Windows.RGB(Winapi.GDIPAPI.GetRed(FValue),
+    Winapi.GDIPAPI.GetGreen(FValue), Winapi.GDIPAPI.GetBlue(FValue) );
   pbPreview.Canvas.FillRect( Rect(0,0,75,75) );
 
   pbPreview.Canvas.Brush.Color:= clWhite;
@@ -368,7 +368,7 @@ begin
 
   Surface:= TGPGraphics.Create(pbPreview.Canvas.Handle);
   Brush:= TGPSolidBrush.Create(FValue);
-  ARect:= {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}GDIPAPI.MakeRect(80, pbPreview.Height-75, pbPreview.Width,
+  ARect:= Winapi.GDIPAPI.MakeRect(80, pbPreview.Height-75, pbPreview.Width,
     pbPreview.Height);
 
   Surface.FillRectangle(Brush,ARect);
@@ -386,10 +386,10 @@ end;
 procedure TGPColorDialog.UpdateControls;
 begin
   FCanChange:= False;
-  seAlpha.Value:= {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}GDIPAPI.GetAlpha(FValue);
-  seRed.Value:= {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}GDIPAPI.GetRed(FValue);
-  seGreen.Value:= {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}GDIPAPI.GetGreen(FValue);
-  seBlue.Value:= {$IFDEF HAS_UNITSCOPE}Winapi.{$ENDIF}GDIPAPI.GetBlue(FValue);
+  seAlpha.Value:= Winapi.GDIPAPI.GetAlpha(FValue);
+  seRed.Value:= Winapi.GDIPAPI.GetRed(FValue);
+  seGreen.Value:= Winapi.GDIPAPI.GetGreen(FValue);
+  seBlue.Value:= Winapi.GDIPAPI.GetBlue(FValue);
   FCanChange:= True;
   pbPreview.Invalidate;
 end;

@@ -21,14 +21,14 @@ Uses
   {$ENDIF}
 
 type
-  TPointHelper = Record Helper for TPoint
+  TPointHelper = record helper for TPoint
     function InRect(ARect: TRect): BooLean; InLine;
     function ToString: String;
     Procedure FromString(AX,AY: String);
   end;
 
-  TSizeHelper = Record Helper for TSize
-    Procedure Make(Width,Height: Integer); InLine;
+  TSizeHelper = record helper for TSize
+    procedure Make(Width,Height: Integer); InLine;
     function IsValue(Value: Integer): BooLean;  InLine;
   End;
 

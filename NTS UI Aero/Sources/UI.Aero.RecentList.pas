@@ -27,8 +27,8 @@ uses
   Vcl.Controls,
   Vcl.Imaging.pngimage,
   {$ELSE}
-  Windows, Messages, SysUtils, Classes, Controls, Graphics, GDIPOBJ,
-  Themes, UxTheme, GDIPAPI, PNGImage,
+  Windows, Messages, SysUtils, Classes, Controls, Graphics, Winapi.GDIPOBJ,
+  Themes, UxTheme, PNGImage,
   {$ENDIF}
   NTS.Code.Common.Types,
   UI.Aero.Core.CustomControl,

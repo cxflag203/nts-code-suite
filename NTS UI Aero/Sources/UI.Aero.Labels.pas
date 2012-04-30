@@ -20,7 +20,6 @@ uses
 
   Winapi.Windows,
   Winapi.Messages,
-  Winapi.GDIPOBJ,
   Winapi.UxTheme,
 
   Vcl.Graphics,
@@ -29,9 +28,9 @@ uses
   Vcl.Themes,
   {$ELSE}
   SysUtils, Windows, Messages, Classes, Controls, Graphics, CommCtrl,
-  Themes, UxTheme, DwmApi, PNGImage, StdCtrls, GDIPUTIL, GDIPOBJ,
-  GDIPAPI,
+  Themes, UxTheme, DwmApi, PNGImage, StdCtrls,
   {$ENDIF}
+  Winapi.GDIPOBJ,
   NTS.Code.Common.Types,
   UI.Aero.Core.BaseControl,
   UI.Aero.Core.CustomControl,

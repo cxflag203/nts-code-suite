@@ -29,8 +29,8 @@ uses
   Vcl.Themes,
   Vcl.Forms,
   {$ELSE}
-  SysUtils, Classes, Windows, Messages, UxTheme, DwmApi, GDIPUTIL, GDIPOBJ,
-  GDIPAPI, Controls, Graphics, Themes, Forms,
+  SysUtils, Classes, Windows, Messages, UxTheme, DwmApi, Winapi.GDIPAPI,
+  Winapi.GDIPOBJ, Winapi.GDIPUTIL, Controls, Graphics, Themes, Forms,
   {$ENDIF}
   UI.Aero.Globals,
   UI.Aero.Core;
@@ -293,9 +293,9 @@ end;
 
 procedure TAeroBaseControl.Paint;
 begin
- Render(Canvas);
- if IsDesigningTime and fDesigningRect then
-  Canvas.DrawFocusRect(ClientRect);
+  Render(Canvas);
+  if IsDesigningTime and fDesigningRect then
+    Canvas.DrawFocusRect(ClientRect);
 end;
 
 procedure TAeroBaseControl.CurrentThemeChanged;

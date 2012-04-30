@@ -37,7 +37,6 @@ requires
   rtl,
   vcl,
   designide,
-  GDIPlus,
   VclSmp;
 
 contains
@@ -48,6 +47,10 @@ contains
   NTS.Code.Common.Types in 'Sources\NTS.Code.Common.Types.pas',
   NTS.Code.Environment.Register.Components in 'Sources\NTS.Code.Environment.Register.Components.pas',
   NTS.Code.Environment.Register.Editors in 'Sources\NTS.Code.Environment.Register.Editors.pas',
-  NTS.Code.Environment.PropertyEditors in 'Sources\NTS.Code.Environment.PropertyEditors.pas';
+  NTS.Code.Environment.PropertyEditors in 'Sources\NTS.Code.Environment.PropertyEditors.pas',
+  Winapi.GDIPAPI in 'GDIPlus\Winapi.GDIPAPI.pas',
+  Winapi.GDIPOBJ in 'GDIPlus\Winapi.GDIPOBJ.pas',
+  Winapi.GDIPUTIL in 'GDIPlus\Winapi.GDIPUTIL.pas';
 
 end.
+

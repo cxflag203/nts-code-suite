@@ -27,8 +27,9 @@ uses
   Vcl.Graphics,
   Vcl.Controls,
   {$ELSE}
-  Windows, Messages, SysUtils, Classes, Controls, Graphics, GDIPOBJ, Themes,
-  UxTheme, GDIPAPI,
+  Windows, Messages, SysUtils, Classes, Controls, Graphics, Themes, UxTheme,
+  Winapi.GDIPOBJ,
+  Winapi.GDIPAPI,
   {$ENDIF}
   NTS.Code.Common.Types,
   UI.Aero.Core.CustomControl,

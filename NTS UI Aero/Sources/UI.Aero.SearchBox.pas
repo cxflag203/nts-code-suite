@@ -33,8 +33,7 @@ uses
   Vcl.Forms,
   {$ELSE}
   SysUtils, Windows, Messages, Classes, Controls, Graphics, CommCtrl,
-  Themes, UxTheme, DwmApi, PNGImage, StdCtrls, GDIPUTIL, GDIPOBJ,
-  GDIPAPI, Forms,
+  Themes, UxTheme, DwmApi, PNGImage, StdCtrls, Winapi.GDIPOBJ, Forms,
   {$ENDIF}
   NTS.Code.Common.Types,
   UI.Aero.Core.BaseControl,

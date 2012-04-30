@@ -24,7 +24,7 @@ uses
   Vcl.Graphics,
   Vcl.Buttons,
   {$ELSE}
-  SysUtils, Classes, Windows, Graphics, GDIPOBJ, UxTheme, Buttons,
+  SysUtils, Classes, Windows, Graphics, Winapi.GDIPOBJ, UxTheme, Buttons,
   {$ENDIF}
   UI.Aero.Globals,
   UI.Aero.Core,
