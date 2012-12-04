@@ -271,24 +271,31 @@ procedure TAeroBaseControl.LoadThemeData;
 var
   ThemeClassName: PChar;
 begin
-  if ThemeData <> 0 then CloseThemeData(ThemeData);
+  if ThemeData <> 0 then
+    CloseThemeData(ThemeData);
+
   ThemeClassName:= GetThemeClassName;
+
   if ThemeClassName <> '' then
     ThemeData:= OpenThemeData(0, ThemeClassName);
 end;
 
 procedure TAeroBaseControl.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
- Inherited MouseDown(Button,Shift,X,Y);
- if Button = mbLeft then MouseLeftDown:= True;
- if fDragWindow and CanDrag(X,Y) then DragMove;
+  inherited MouseDown(Button,Shift,X,Y);
+
+  if Button = mbLeft then
+    MouseLeftDown:= True;
+
+  if fDragWindow and CanDrag(X,Y) then
+    DragMove;
 end;
 
 procedure TAeroBaseControl.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
- Inherited MouseUp(Button,Shift,X,Y);
- if Button = mbLeft then
-  MouseLeftDown:= False; 
+  inherited MouseUp(Button,Shift,X,Y);
+  if Button = mbLeft then
+    MouseLeftDown:= False;
 end;
 
 procedure TAeroBaseControl.Paint;
